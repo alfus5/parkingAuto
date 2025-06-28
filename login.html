@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Connexion – Parking</title>
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+
+  <h1>🔐 Connexion</h1>
+  <form id="login-form">
+    <input type="email" id="login-email" placeholder="Email" required>
+    <input type="password" id="login-password" placeholder="Mot de passe" required>
+    <button class="secondary" type="submit">Se connecter</button>
+  </form>
+
+  <hr>
+
+  <h2>Créer un compte</h2>
+  <form id="signup-form">
+    <input type="text"     id="signup-nom"      placeholder="Nom complet" required />
+    <input type="tel"      id="signup-phone"    placeholder="Téléphone" required />
+    <input type="email"    id="signup-email"    placeholder="Email" required />
+    <input type="password" id="signup-password" placeholder="Mot de passe" required />
+    <button class="secondary" type="submit">S’inscrire</button>
+  </form>
+
+  <!-- charge le script -->
+  <script type="module" src="./js/login.js"></script>
+</body>
+</html>

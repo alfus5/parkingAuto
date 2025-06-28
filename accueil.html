@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Réserver une place</title>
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+  <button class="secondary" id="logout-btn" style="display: none;">🔓 Se déconnecter</button>
+
+  <h1>Réservation Parking Voiturier</h1>
+
+  <!-- Formulaire de réservation -->
+  <form id="demo-res">
+    <input name="clientNom" placeholder="Nom" required />
+    <input name="clientEmail" type="email" placeholder="Email" required />
+    <input name="clientPhone" type="tel" placeholder="Téléphone" required />
+    <label>📅 Date de départ : <input name="dateDepart" type="date" required /></label>
+    <label>✈️ Heure du vol : <input name="heureVol" type="time" required /></label>
+    <label>📅 Date de retour : <input name="dateRetour" type="date" required /></label>
+    <select name="pack">
+      <option>Standard</option>
+      <option>Confort</option>
+      <option>VIP</option>
+    </select>
+    <button class="secondary" type="submit">Réserver</button>
+  </form>
+
+  <!-- Section “Mes réservations” (visible seulement si connecté) -->
+  <section class= "panel" id="mes-reservations" style="display:none;">
+    <h2>Mes réservations</h2>
+    <table border="1" id="table-client" style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr>
+            <th>Date départ</th>
+            <th>Heure vol</th>
+            <th>Heure RDV</th>
+            <th>Date retour</th>
+            <th>Pack</th>
+            <th>Statut</th>
+        </tr>
+      </thead>
+
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <p id="confirmation" style="color: green;"></p>
+
+  <!-- Scripts -->
+  <script type="module" src="./js/demo.js"></script>
+  <script type="module" src="./js/auth.js"></script>
+  <script type="module" src="./js/client.js"></script>
+</body>
+</html>

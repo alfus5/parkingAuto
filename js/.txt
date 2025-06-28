@@ -1,0 +1,131 @@
+import { db, auth } from './firebase-config.js';
+import {
+  collection, query, getDocs,
+  getDoc, doc, updateDoc
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+const tableBody = document.querySelector("#table-reservations tbody");
+
+// Contrôle d'accès sécurisé
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  let isAdmin = false;
+
+  try {
+    const snap = await getDoc(doc(db, "users", user.uid));
+    isAdmin = snap.exists() && snap.data().role === "admin";
+  } catch (err) {
+    console.error("Erreur récupération rôle :", err);
+  }
+
+  if (!isAdmin) {
+    await signOut(auth);
+    alert("🚫 Accès réservé aux administrateurs.");
+    window.location.href = "login.html";
+    return;
+  }
+  /* ✅ 3bis. Affiche le tableau uniquement si admin */
+  document.getElementById("admin-panel").style.display = "block";
+
+  // ✅ L’utilisateur est admin : on charge les données
+  chargerReservations();
+});
+
+// Chargement des réservations
+async function chargerReservations() {
+  try {
+    const snap = await getDocs(query(collection(db, "reservations")));
+
+    let total = 0, paid = 0, canceled = 0, acompte = 0;
+    let packStandard = 0, packConfort = 0, packVIP = 0;
+
+    snap.forEach(d => {
+      const r = d.data();
+      total++;
+
+      if (r.statut === "payé")     paid++;
+      else if (r.statut === "annulé") canceled++;
+      else                          acompte++;
+
+      if (r.pack === "Standard")   packStandard++;
+      else if (r.pack === "Confort") packConfort++;
+      else if (r.pack === "VIP")     packVIP++;
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${r.clientNom}</td>
+        <td>${r.clientEmail}</td>
+        <td>${r.dateDepart?.toDate().toLocaleDateString("fr-FR") ?? ""}</td>
+        <td>${r.dateRetour?.toDate().toLocaleDateString("fr-FR") ?? ""}</td>
+        <td>${r.pack}</td>
+        <td class="statut">${r.statut}</td>
+        <td>
+          <button class="btn-statut" data-id="${d.id}" data-val="payé">✅ Payé</button>
+          <button class="btn-statut" data-id="${d.id}" data-val="annulé">❌ Annuler</button>
+        </td>
+      `;
+      row.dataset.nom    = r.clientNom.toLowerCase();
+      row.dataset.email  = r.clientEmail.toLowerCase();
+      row.dataset.statut = r.statut.toLowerCase();
+      row.dataset.pack   = r.pack.toLowerCase();
+      tableBody.appendChild(row);
+    });
+
+    // Statistiques
+    document.getElementById("total-count").textContent   = total;
+    document.getElementById("paid-count").textContent    = paid;
+    document.getElementById("cancel-count").textContent  = canceled;
+    document.getElementById("acompte-count").textContent = acompte;
+    document.getElementById("pack-standard").textContent = packStandard;
+    document.getElementById("pack-confort").textContent  = packConfort;
+    document.getElementById("pack-vip").textContent      = packVIP;
+
+  } catch (err) {
+    console.error("Erreur chargement réservations :", err);
+  }
+}
+
+// Mise à jour du statut
+tableBody.addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("btn-statut")) return;
+  const { id, val } = e.target.dataset;
+
+  try {
+    await updateDoc(doc(db, "reservations", id), { statut: val });
+    e.target.closest("tr").querySelector(".statut").textContent = val;
+  } catch (err) {
+    console.error("Erreur mise à jour statut :", err);
+  }
+});
+
+// Filtres
+const searchInput  = document.getElementById("search-input");
+const filterStatut = document.getElementById("filter-statut");
+const filterPack   = document.getElementById("filter-pack");
+
+function filtrer() {
+  const q  = searchInput?.value.toLowerCase()  ?? "";
+  const st = filterStatut?.value.toLowerCase() ?? "";
+  const pk = filterPack?.value.toLowerCase()   ?? "";
+
+  [...tableBody.children].forEach(row => {
+    const visible =
+      (row.dataset.nom.includes(q) || row.dataset.email.includes(q)) &&
+      (st === "" || row.dataset.statut === st) &&
+      (pk === "" || row.dataset.pack   === pk);
+
+    row.style.display = visible ? "" : "none";
+  });
+}
+
+searchInput?.addEventListener("input", filtrer);
+filterStatut?.addEventListener("change", filtrer);
+filterPack?.addEventListener("change", filtrer);

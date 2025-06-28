@@ -1,0 +1,116 @@
+/* ---------- Palette ----------
+   Prune : #922c40   Sunset : #f47b5f
+   Sand  : #fff9f3   Slate  : #334155
+--------------------------------*/
+:root{
+  --c-accent: #f47b5f;
+  --c-accent-dark:#de5e42;
+  --c-bg:     #fff9f3;
+  --c-text:   #334155;
+  --c-prune:  #922c40;
+  --radius:   10px;
+  --shadow:   0 4px 12px rgb(0 0 0 / .08);
+  --speed:    .25s;
+}
+
+/* ---------- Reset léger ---------- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family: system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background: var(--c-bg);
+  color: var(--c-text);
+  line-height:1.45;
+  padding: 2rem;
+  animation: fade .6s ease;
+}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+
+h1,h2{margin-bottom:.6rem;font-weight:600;color:var(--c-prune)}
+h1{font-size:clamp(1.6rem,3vw,2.2rem)}
+h2{font-size:1.3rem}
+
+button,input,select{
+  font: inherit;
+  border: 1px solid #d3d7de;
+  border-radius: var(--radius);
+  padding:.45rem .8rem;
+}
+button{
+  cursor:pointer;
+  background: var(--c-accent);
+  color:#fff;
+  border:none;
+  transition:transform var(--speed) ease,box-shadow var(--speed);
+}
+button:hover{background:var(--c-accent-dark);transform:translateY(-2px);box-shadow:var(--shadow)}
+button:active{transform:translateY(0)}
+
+form{
+  display:grid;
+  gap:.7rem;
+  background:#fff;
+  padding:1.2rem 1.4rem;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  width:min(420px,100%);
+  margin-bottom:2rem;
+}
+
+/* ---------- Tables ---------- */
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:1rem;
+  background:#fff;
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  animation:fade .6s ease;
+}
+th,td{padding:.6rem .7rem;text-align:left;border-bottom:1px solid #f0f0f0}
+th{background:#fafafa;font-weight:600;color:var(--c-prune)}
+tbody tr:hover{background:#fff1eb;transition:background .25s}
+tbody tr:last-child td{border-bottom:none}
+
+/* ---------- Filters & stats ---------- */
+#stats p{margin:.3rem 0}
+input[type="text"],input[type="email"],input[type="password"],input[type="tel"],input[type="time"],input[type="date"],select{
+  background:#fff;
+  width:100%;
+}
+select{cursor:pointer}
+
+/* ---------- Message du boss ---------- */
+#admin-message{
+  border-left:6px solid var(--c-accent);
+  background:#ffe9e1;
+  color:#7c2d12;
+  animation:fade .4s ease;
+}
+#admin-message button{
+  margin-top:.6rem;
+  background:#fff;
+  color:var(--c-accent-dark);
+  border:1px solid var(--c-accent);
+}
+#admin-message button:hover{background:var(--c-accent);color:#fff}
+
+/* ---------- Utility ---------- */
+.hidden{display:none!important}
+.mt-2{margin-top:2rem}
+
+.secondary{background:#e2e8f0;color:#334155}
+.secondary:hover{background:#cbd5e1}
+
+.panel{background:#fff;padding:1.5rem;border-radius:var(--radius);box-shadow:var(--shadow);margin-top:1.8rem}
+
+@keyframes slide-in{from{opacity:0;transform:translateX(20px)}to{opacity:1}}
+table{animation:slide-in .4s ease}
+#stats {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
