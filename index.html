@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Parking Auto</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a id="loginLink" href="#">Connexion</a></li>
+                <li><a id="signupLink" href="#">Créer un compte</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div id="present">
+            <h1>Stationnez votre voiture en toute confiance </h1>
+            Optez pour notre service de voiturier, la solution pratique et sécurisée pour le 
+            stationnement de votre véhicule. Que vous partiez en voyage d’affaires, en vacances ou que 
+            vous cherchiez simplement un endroit sûr pour votre voiture, notre équipe est là pour vous. 
+            Confiez-nous votre véhicule en toute confiance : nous en prenons soin comme si c’était le nôtre, 
+            dans un espace sécurisé et facilement accessible. Gagnez du temps, libérez-vous l’esprit — on 
+            s’occupe de tout !</div>
+        <form id="demo-res">
+
+            <input name="clientNom" placeholder="Nom" required>
+            <input name="clientEmail" type="email" placeholder="Email" required>
+            <input name="clientPhone" type="tel" placeholder="Téléphone" required>
+            <label>📅 Date de départ : <br><input name="dateDepart" type="date" required></label>
+            <label>✈️ Heure du vol : <br><input name="heureVol" type="time" required></label>
+            <label>📅 Date de retour : <br><input name="dateRetour" type="date" required></label>
+            <select name="pack">
+            <option>Standard</option>
+            <option>Confort</option>
+            <option>VIP</option>
+            </select>
+            <button class="secondary" type="submit">Réserver</button>
+  
+        </form>
+    </main>
+
+    <footer>
+
+    </footer>
+</body>
+</html>
