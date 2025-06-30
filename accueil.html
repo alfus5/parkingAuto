@@ -7,6 +7,30 @@
 
 </head>
 <body>
+   <script type="module">
+        import { auth } from './js/firebase-config.js'; // ✅ OK si firebase-config.js est dans /js
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+        onAuthStateChanged(auth, user => {
+            if (!user) {
+            window.location.href = "login.html";
+            } else {
+            document.body.style.display = "";
+            }
+        });
+  </script>
+  <script type="module">
+    import { auth } from './firebase-config.js';
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        window.location.href = "login.html";
+      } else {
+        document.body.style.display = "";
+      }
+    });
+  </script>
   <button class="secondary" id="logout-btn" style="display: none;">🔓 Se déconnecter</button>
 
   <h1>Réservation Parking Voiturier</h1>

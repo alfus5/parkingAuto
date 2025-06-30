@@ -1,4 +1,5 @@
 import { saveReservation } from './firebase-reservation.js';
+import { auth } from './firebase-config.js'; // 🔧 Important pour récupérer l'utilisateur
 
 const form = document.getElementById("demo-res");
 
@@ -7,11 +8,17 @@ form.addEventListener('submit', async (e) => {
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
 
-  // Convertir les dates en objets Date pour Firestore
+  // 🔧 Ajouter les infos utilisateur connectées
+  const user = auth.currentUser;
+  if (!user) {
+    alert("Erreur : aucun utilisateur connecté.");
+    return;
+  }
+  data.uid = user.uid;
+  data.clientEmail = user.email;
+
   data.dateDepart = new Date(data.dateDepart);
   data.dateRetour = new Date(data.dateRetour);
-
-  // Assurez-vous que l'heureVol est bien présente
   data.heureVol = formData.get("heureVol") || null;
 
   try {

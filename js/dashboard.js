@@ -1,11 +1,29 @@
-/* ========= dashboard.js ========= */
-import { auth, db } from './firebase-config.js';
+console.log("[dashboard] Script chargé");
+
+import { guard } from './authGuard.js';
+console.log('[dashboard] avant guard');
+await guard('admin');
+document.body.style.display = ""; // ← pour afficher le body après vérification
+console.log('[dashboard] après guard – accès autorisé');
+
+import { auth, db } from './firebase-config.js'; // ← si dashboard.js est dans js/
+
+
+let myUID = ""; // on initialise ici
+
 import {
   collection, getDocs, query,
   getDoc, doc, updateDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 import { onAuthStateChanged, signOut } from
   "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
+
 
 /* ─────────── Sélecteurs ─────────── */
 const logoutBtn     = document.getElementById("logout-btn");
@@ -23,7 +41,6 @@ const btnRead  = document.getElementById("dismiss-msg-btn");
 
 let allRes   = [];   // Toutes les réservations
 let nomMap   = {};   // uid → nom
-let myUID = ""; // UID de l'admin connecté
 
 function heureRDV(h) {
   const [hr, min] = h.split(":").map(Number);
@@ -34,20 +51,19 @@ function heureRDV(h) {
 
 
 /* ─────────── Sécurité d’accès ─────────── */
+
 onAuthStateChanged(auth, async (user) => {
-  if (!user) return location.href = "login.html";
+  if (!user) return;
+
   myUID = user.uid;
 
-  /* Rôle de l'utilisateur */
+  const panel = document.getElementById("admin-panel");
+  if (panel) panel.style.display = "block";
+
+  // 🔁 AJOUT ICI
   const snap = await getDoc(doc(db, "users", myUID));
   const data = snap.data() ?? {};
-  if (data.role !== "admin") {
-    await signOut(auth);
-    alert("🚫 Accès réservé aux administrateurs.");
-    return location.href = "login.html";
-  }
 
-  /* Message du boss */
   if (data.message) {
     msgText.textContent = data.message;
     msgBox.style.display = "block";
@@ -55,21 +71,11 @@ onAuthStateChanged(auth, async (user) => {
     msgBox.style.display = "none";
   }
 
-  /* Bouton « marquer comme lu » */
-  btnRead?.addEventListener("click", async () => {
-  await updateDoc(doc(db, "users", myUID), {
-    message: "",
-    messageVu: true
-  });
-  msgBox.style.display = "none";
+  await chargerReservations();
+  console.log("[dashboard] Utilisateur détecté", user);
+
 });
 
-
-  document.getElementById("admin-panel").style.display = "block";
-  logoutBtn.style.display = "inline-block";
-
-  await chargerReservations();          // Charge tout au démarrage
-});
 
 /* ─────────── Fonction principale ─────────── */
 async function chargerReservations() {
@@ -90,6 +96,7 @@ async function chargerReservations() {
     console.error("Erreur chargement réservations :", err);
   }
 }
+
 
 /* ─────────── Calcul stats + affichage ─────────── */
 function majStatsEtAffichage() {
@@ -232,4 +239,8 @@ document.getElementById("export-csv")?.addEventListener("click", () => {
   a.href = url;
   a.download = "reservations.csv";
   a.click();
+});
+btnRead?.addEventListener("click", async () => {
+  await updateDoc(doc(db, "users", myUID), { message: "" });
+  msgBox.style.display = "none";
 });

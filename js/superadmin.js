@@ -1,3 +1,8 @@
+import { guard } from "./authGuard.js";
+await guard("superadmin");
+
+// … code superadmin.js …
+
 import { auth, db } from './firebase-config.js';
 import {
   onAuthStateChanged,
@@ -8,6 +13,12 @@ import {
   getDoc, doc, collection, getDocs, updateDoc,
   query, where, writeBatch, deleteDoc
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
 
 
 

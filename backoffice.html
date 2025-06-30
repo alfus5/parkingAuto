@@ -26,6 +26,20 @@
 
 </head>
 <body>
+  <script type="module">
+    import { auth } from './js/firebase-config.js'; // ✅ le bon chemin
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+    onAuthStateChanged(auth, user => {
+        if (!user) {
+        window.location.href = "login.html";
+        } else {
+        document.body.style.display = "";
+        }
+    });
+  </script>
+
+
 
   <!-- 🔓 Déconnexion -->
   <button class="secondary" id="logout-btn" style="display:none;">🔓 Se déconnecter</button>
@@ -136,8 +150,9 @@
   </div>
 
   <!-- 🔗 Scripts -->
-  <script type="module" src="./js/auth.js"></script>
-  <script type="module" src="./js/dashboard.js"></script>
+    <script type="module" src="./js/auth.js"></script>
+    <script type="module" src="./js/dashboard.js"></script>
+
 
 </body>
 </html>

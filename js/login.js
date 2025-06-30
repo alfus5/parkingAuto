@@ -27,13 +27,17 @@ document.getElementById("signup-form")?.addEventListener("submit", async (e) => 
       messageVu: true
     });
 
-    alert("✅ Compte créé avec succès !");
-    window.location.href = "backoffice.html";
+    // 🔴 On déconnecte l'utilisateur immédiatement après création du compte
+    await auth.signOut();
+
+    alert("✅ Compte créé avec succès ! Veuillez maintenant vous connecter.");
+    window.location.href = "login.html";
   } catch (err) {
     console.error("❌ Erreur de création :", err);
     alert("❌ Erreur : " + err.message);
   }
 });
+
 
 /* ========== CONNEXION ========== */
 document.getElementById("login-form")?.addEventListener("submit", async (e) => {
