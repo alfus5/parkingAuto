@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="images/x-icon" href="/images/favicon.ico">
-    <title>Home Park - Parking Auto</title>
+    <title>Parking Auto</title>
 </head>
-
 <body>
-
     <header>
-        
         <nav>
             <ul>
                 <li><a href="#accueil">Accueil</a></li>
@@ -26,56 +21,32 @@
     <main>
         <div id="present">
             <h1>Stationnez votre voiture en toute confiance </h1>
-            <p>Optez pour notre service de voiturier, la solution pratique et sécurisée pour le
-                stationnement de votre véhicule. Que vous partiez en voyage d’affaires, en vacances ou que
-                vous cherchiez simplement un endroit sûr pour votre voiture, notre équipe est là pour vous.
-                Confiez-nous votre véhicule en toute confiance : nous en prenons soin comme si c’était le nôtre,
-                dans un espace sécurisé et facilement accessible. Gagnez du temps, libérez-vous l’esprit — on
-                s’occupe de tout !</p>
-        </div>
+            Optez pour notre service de voiturier, la solution pratique et sécurisée pour le 
+            stationnement de votre véhicule. Que vous partiez en voyage d’affaires, en vacances ou que 
+            vous cherchiez simplement un endroit sûr pour votre voiture, notre équipe est là pour vous. 
+            Confiez-nous votre véhicule en toute confiance : nous en prenons soin comme si c’était le nôtre, 
+            dans un espace sécurisé et facilement accessible. Gagnez du temps, libérez-vous l’esprit — on 
+            s’occupe de tout !</div>
+        <form id="demo-res">
 
-        <div class="form-container">
-            <form id="form-step-1" class="form-step active">
-
-                <input name="clientNom" placeholder="Nom" required>
-                <input name="clientEmail" type="email" placeholder="Email" required>
-                <input name="clientPhone" type="tel" placeholder="Téléphone" required>
-                <label>📅 Date de départ : <br><input name="dateDepart" type="date" required></label>
-                <label>✈️ Heure du vol : <br><input name="heureVol" type="time" required></label>
-                <label>📅 Date de retour : <br><input name="dateRetour" type="date" required></label>
-                <select name="pack">
-                    <option>Standard</option>
-                    <option>Confort</option>
-                    <option>VIP</option>
-                </select>
-                <!--<button class="secondary" type="submit">Réserver</button>-->
-
-            </form>
-            <form id="register-form" class="form-step">
-                <input type="text" name="signupNom" id="register-nom" placeholder="Nom complet" required />
-                <input type="tel" name="signupPhone" id="register-phone" placeholder="Téléphone" required />
-                <input type="email" name="signupEmail" id="register-email" placeholder="Email" required />
-                <input type="password" name="signupPassword" id="register-password"
-                    placeholder="Choisissez un mot de passe" required />
-                <button class="secondary" type="submit">S’inscrire</button>
-            </form>
-
-
-            <div class="nav-footer">
-                <button id="nextBtn" class="next-btn">➔</button>
-            </div>
-
-        </div>
-        <div class="progress-bar">
-            <div class="progress" id="progressIndicator"></div>
-        </div>
+            <input name="clientNom" placeholder="Nom" required>
+            <input name="clientEmail" type="email" placeholder="Email" required>
+            <input name="clientPhone" type="tel" placeholder="Téléphone" required>
+            <label>📅 Date de départ : <br><input name="dateDepart" type="date" required></label>
+            <label>✈️ Heure du vol : <br><input name="heureVol" type="time" required></label>
+            <label>📅 Date de retour : <br><input name="dateRetour" type="date" required></label>
+            <select name="pack">
+            <option>Standard</option>
+            <option>Confort</option>
+            <option>VIP</option>
+            </select>
+            <button class="secondary" type="submit">Réserver</button>
+  
+        </form>
     </main>
 
     <footer>
 
     </footer>
-    <script type="module" src="js/auth.js"></script>
-    <script type="module" src="js/index.js"></script>
 </body>
-
 </html>
