@@ -3,9 +3,9 @@
    Sand  : #fff9f3   Slate  : #334155
 --------------------------------*/
 :root{
-  --c-accent: #f47b5f;
-  --c-accent-dark:#de5e42;
-  --c-bg:     #fff9f3;
+  --c-accent: #353d69;
+  --c-accent-dark:#5eadd6;
+  --c-bg:     #ffffff;
   --c-text:   #334155;
   --c-prune:  #922c40;
   --radius:   10px;
@@ -113,4 +113,16 @@ table{animation:slide-in .4s ease}
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   margin-bottom: 1.5rem;
   line-height: 1.6;
+}
+
+.payer-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.payer-btn:hover {
+  background-color: #45a049;
 }

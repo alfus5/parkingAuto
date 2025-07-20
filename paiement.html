@@ -5,24 +5,26 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/style.css">
-        <title>Carte de paiement</title>
+        <title>Paiement de la commande</title>
 		<script src="https://www.paypal.com/sdk/js?client-id=AW2DYKeQ2ljCp8pKy9FDGHxPn9l5Qj-SfrkWV2p_j0DXKdzMkyn6-tzGvkQfDWkHNISwr4hOzBnS3eGB&currency=EUR"></script>
 	</head>
 	<body>
 		<main>
-			<div id="paypal-button-container"></div>
-			<!-- Formulaire -->
+			<h1>Payez votre réservation</h1>
+			<p>Choisissez votre mode de paiement. Payez soit par carte bancaire, soit directement avec Paypal.</p>
+			<div id="paypal-button-container" style="margin-top: 25%;"></div>
+			<!-- Formulaire 
 			<form id="form" name="myForm">
 				<div>
-					<!-- Numéro de carte -->
+					<!- - Numéro de carte - ->
 					<label for="form-number">Numéro de carte</label>
 					<input type="text" id="form-number" name="form-number" minlength="16" maxlength="16" required autocomplete="off">
 
-					<!-- Nom du propriétaire -->
+					<!- - Nom du propriétaire - ->
 					<label for="form-person">Nom du propriétaire</label>
 					<input type="text" id="form-person" name="form-person" maxlength="29" required autocomplete="off">
 
-					<!-- Date d'expiration et CVV -->
+					<!- - Date d'expiration et CVV - ->
 					<div id="form-bottom">
 						<div>
 							<label id="label-month" for="form-month">Date d'expiration</label>
@@ -30,7 +32,7 @@
 						</div>
 						<div>
 							<div>
-								<!-- Champ du mois -->
+								<!- - Champ du mois - ->
 								<select class="form-date" name="form-month" required>
 									<option value="" disabled selected>Mois</option>
 									<option value="1">1</option>
@@ -47,7 +49,7 @@
 									<option value="12">12</option>
 								  </select>
 
-								  <!-- Champ de l'année -->
+								  <!- - Champ de l'année - ->
 								  <select class="form-date" name="form-year" required>
 									<option value="" disabled selected>Année</option>
 									<option value="2025">2025</option>
@@ -62,12 +64,12 @@
 								  </select>
 							</div>
 
-							<!-- Champ du CVV -->
+							<!- - Champ du CVV - ->
 							<input type="text" id="form-CVV" name="form-CVV" minlength="3" maxlength="3" required autocomplete="off">
 						</div>
 					</div>
 
-					<!-- Bouton de paiement importé sur in site -->
+					<!- - Bouton de paiement importé sur in site - ->
 					<button class="expand" onclick="checkForm(event)">
 						Payer
 						<span class="expand-icon expand-hover">
@@ -80,7 +82,7 @@
 						</span>
 					</button>
 				</div>
-			</form>
+			</form>-->
 		</main>
 		<script src="js/payement.js"></script>
 	</body>

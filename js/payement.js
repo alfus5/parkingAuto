@@ -1,42 +1,37 @@
-//Vérification d'envoie des données du formulaire
-function checkForm(event) {
-    event.preventDefault();
-    
-    //Initialisation de variables à partir des données du formulaires
-    var formNumber = document.getElementById('form-number').value;
-    var formPerson = document.getElementById('form-person').value;
-    var formMonth = document.getElementsByClassName('form-date')[0].value;
-    var formYear = document.getElementsByClassName('form-date')[1].value;
-    var formCVV = document.getElementById('form-CVV').value;
+// Fonction pour récupérer les paramètres dans l'URL
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
 
-    if (formNumber === "" || formPerson === "" || formMonth === "" || formYear === "" || formCVV === "") {
-        alert("Veuillez remplir tous les champs.");
-    }
-    else if(formNumber.length !== 16){
-        alert("Numéro de carte incorrecte.");
-    }
-    else if(formCVV.length !== 3){
-        alert("CVV incorrecte.");
-    }
-    else {
-        //logique payment
-    }
+// Récupération de l'id et du prix passés en query params
+const idReservation = getQueryParam('id');
+const prix = getQueryParam('prix');
+
+// Affiche le prix à payer dans la page (avant le bouton)
+if (prix) {
+    const main = document.querySelector('main');
+    const paragraph = main.querySelector('p'); // récupère le <p> existant
+    const infoPrix = document.createElement('p');
+    infoPrix.textContent = `Montant à payer : ${prix} €`;
+    paragraph.insertAdjacentElement('afterend', infoPrix); // insère après le <p>
 }
 
 paypal.Buttons({
     createOrder: function(data, actions) {
-    return actions.order.create({
-        purchase_units: [{
-        amount: {
-            value: '10.00' // Prix en euros
-        }
-        }]
-    });
+        return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: prix || '10.00' // prix dynamique ou valeur par défaut
+                }
+            }]
+        });
     },
     onApprove: function(data, actions) {
-    return actions.order.capture().then(function(details) {
-        alert('Paiement effectué par ' + details.payer.name.given_name);
-        // Tu peux ici rediriger, stocker la commande, etc.
-    });
+        return actions.order.capture().then(function(details) {
+            alert('Paiement effectué par ' + details.payer.name.given_name);
+            // Ici tu peux mettre à jour le statut dans ta base avec idReservation
+            // ex: updateReservationStatus(idReservation, 'payé');
+        });
     }
 }).render('#paypal-button-container');

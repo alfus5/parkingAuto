@@ -4,23 +4,163 @@
   <meta charset="UTF-8" />
   <title>Réserver une place</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    :root {
+      --c-accent: #f47b5f;
+      --c-accent-dark: #de5e42;
+      --c-bg: #fff9f3;
+      --c-text: #334155;
+      --c-prune: #922c40;
+      --radius: 10px;
+      --shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+      --speed: 0.25s;
+    }
 
+    body {
+      font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--c-bg);
+      color: var(--c-text);
+      line-height: 1.45;
+      padding: 2rem;
+      animation: fade 0.6s ease;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    h1, h2 {
+      margin-bottom: 0.6rem;
+      font-weight: 600;
+      color: var(--c-prune);
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+    }
+
+    button, input, select {
+      font: inherit;
+      border: 1px solid #d3d7de;
+      border-radius: var(--radius);
+      padding: 0.45rem 0.8rem;
+    }
+
+    button {
+      cursor: pointer;
+      background: var(--c-accent);
+      color: #fff;
+      border: none;
+      transition: transform var(--speed) ease, box-shadow var(--speed), background var(--speed);
+    }
+
+    button:hover {
+      background: var(--c-accent-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .secondary {
+      background: #e2e8f0;
+      color: var(--c-text);
+    }
+
+    .secondary:hover {
+      background: #cbd5e1;
+    }
+
+    form {
+      display: grid;
+      gap: 0.7rem;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      width: min(480px, 100%);
+      margin: 0 auto 2rem;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    #logout-btn {
+      float: right;
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      animation: fade 0.6s ease;
+    }
+
+    th, td {
+      padding: 0.6rem 0.7rem;
+      text-align: left;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    th {
+      background: #fafafa;
+      font-weight: 600;
+      color: var(--c-prune);
+    }
+
+    tbody tr:hover {
+      background: #fff1eb;
+      transition: background 0.25s;
+    }
+
+    .panel {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-top: 2rem;
+      width: min(960px, 100%);
+      margin-inline: auto;
+    }
+
+    #confirmation {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      form, .panel {
+        padding: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-   <script type="module">
-        import { auth } from './js/firebase-config.js'; // ✅ OK si firebase-config.js est dans /js
-        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
-
-        onAuthStateChanged(auth, user => {
-            if (!user) {
-            window.location.href = "login.html";
-            } else {
-            document.body.style.display = "";
-            }
-        });
-  </script>
   <script type="module">
-    import { auth } from './firebase-config.js';
+    import { auth } from './js/firebase-config.js';
     import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
     onAuthStateChanged(auth, user => {
@@ -28,14 +168,15 @@
         window.location.href = "login.html";
       } else {
         document.body.style.display = "";
+        document.getElementById('logout-btn').style.display = 'inline-block';
       }
     });
   </script>
+
   <button class="secondary" id="logout-btn" style="display: none;">🔓 Se déconnecter</button>
 
   <h1>Réservation Parking Voiturier</h1>
 
-  <!-- Formulaire de réservation -->
   <form id="demo-res">
     <input name="clientNom" placeholder="Nom" required />
     <input name="clientEmail" type="email" placeholder="Email" required />
@@ -51,26 +192,24 @@
     <button class="secondary" type="submit">Réserver</button>
   </form>
 
-  <!-- Section “Mes réservations” (visible seulement si connecté) -->
-  <section class= "panel" id="mes-reservations" style="display:none;">
+  <section class="panel" id="mes-reservations" style="display: none;">
     <h2>Mes réservations</h2>
-    <table border="1" id="table-client" style="width:100%;border-collapse:collapse;">
+    <table id="table-client">
       <thead>
         <tr>
-            <th>Date départ</th>
-            <th>Heure vol</th>
-            <th>Heure RDV</th>
-            <th>Date retour</th>
-            <th>Pack</th>
-            <th>Statut</th>
+          <th>Date départ</th>
+          <th>Heure vol</th>
+          <th>Heure RDV</th>
+          <th>Date retour</th>
+          <th>Pack</th>
+          <th>Statut</th>
         </tr>
       </thead>
-
       <tbody></tbody>
     </table>
   </section>
 
-  <p id="confirmation" style="color: green;"></p>
+  <p id="confirmation"></p>
 
   <!-- Scripts -->
   <script type="module" src="./js/demo.js"></script>

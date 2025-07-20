@@ -1,32 +1,142 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <title>Connexion – Parking</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background-color: var(--c-bg);
+      color: var(--c-text);
+    }
 
+    .auth-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .auth-header h1 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--c-accent);
+    }
+
+    .auth-header p {
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .auth-forms {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 960px;
+      align-items: flex-start;
+    }
+
+    .auth-forms form {
+      flex: 1 1 320px;
+      background: #fff;
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 0.8rem;
+      min-width: 280px;
+
+      flex: 1;
+      min-width: 300px;
+      /* Pour qu’ils ne soient pas trop étroits */
+      display: flex;
+      flex-direction: column;
+      min-height: 300px;
+    }
+
+    @media (max-width: 768px) {
+      .auth-forms {
+        flex-direction: column;
+      }
+    }
+
+    .auth-forms h2 {
+      color: var(--c-prune);
+      margin-bottom: .5rem;
+      font-size: 1.3rem;
+    }
+
+    input,
+    button {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      cursor: pointer;
+      background: var(--c-accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.6rem 1rem;
+      transition: transform var(--speed) ease, box-shadow var(--speed), background var(--speed);
+    }
+
+    button:hover {
+      background: var(--c-accent-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .auth-forms {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="auth-container">
+    <div class="auth-header">
+      <h1>🔐 Connexion ou création de compte</h1>
+      <p>Connectez-vous à votre espace client ou créez un compte.</p>
+    </div>
 
-  <h1>🔐 Connexion</h1>
-  <form id="login-form">
-    <input type="email" id="login-email" placeholder="Email" required>
-    <input type="password" id="login-password" placeholder="Mot de passe" required>
-    <button class="secondary" type="submit">Se connecter</button>
-  </form>
+    <div class="auth-forms">
+      <form id="login-form">
+        <h2>Connexion</h2>
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Mot de passe" required>
+        <button type="submit">Se connecter</button>
+      </form>
 
-  <hr>
+      <form id="signup-form">
+        <h2>Créer un compte</h2>
+        <input type="text" id="signup-nom" placeholder="Nom complet" required />
+        <input type="tel" id="signup-phone" placeholder="Téléphone" required />
+        <input type="email" id="signup-email" placeholder="Email" required />
+        <input type="password" id="signup-password" placeholder="Mot de passe" required />
+        <button type="submit">S’inscrire</button>
+      </form>
+    </div>
+  </div>
 
-  <h2>Créer un compte</h2>
-  <form id="signup-form">
-    <input type="text"     id="signup-nom"      placeholder="Nom complet" required />
-    <input type="tel"      id="signup-phone"    placeholder="Téléphone" required />
-    <input type="email"    id="signup-email"    placeholder="Email" required />
-    <input type="password" id="signup-password" placeholder="Mot de passe" required />
-    <button class="secondary" type="submit">S’inscrire</button>
-  </form>
-
-  <!-- charge le script -->
   <script type="module" src="./js/login.js"></script>
 </body>
+
 </html>

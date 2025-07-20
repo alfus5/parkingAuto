@@ -5,77 +5,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="images/x-icon" href="/images/favicon.ico">
+    <link rel="icon" type="images/x-icon" href="/img/favicon.ico">
     <title>Home Park - Parking Auto</title>
 </head>
 
 <body>
 
     <header>
-        
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="img/logo.png" alt="Logo Home Park" />
+            </a>
+        </div>
         <nav>
             <ul>
                 <li><a href="#accueil">Accueil</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a id="loginLink" href="#">Connexion</a></li>
-                <li><a id="signupLink" href="#">Créer un compte</a></li>
+                <li><a id="loginLink" href="login.html">Connexion</a></li>
             </ul>
         </nav>
     </header>
 
+
     <main>
-        <div id="present">
-            <h1>Stationnez votre voiture en toute confiance </h1>
-            <p>Optez pour notre service de voiturier, la solution pratique et sécurisée pour le
-                stationnement de votre véhicule. Que vous partiez en voyage d’affaires, en vacances ou que
-                vous cherchiez simplement un endroit sûr pour votre voiture, notre équipe est là pour vous.
-                Confiez-nous votre véhicule en toute confiance : nous en prenons soin comme si c’était le nôtre,
-                dans un espace sécurisé et facilement accessible. Gagnez du temps, libérez-vous l’esprit — on
-                s’occupe de tout !</p>
-        </div>
-
-        <div class="form-container">
-            <form id="form-step-1" class="form-step active">
-
-                <input name="clientNom" placeholder="Nom" required>
-                <input name="clientEmail" type="email" placeholder="Email" required>
-                <input name="clientPhone" type="tel" placeholder="Téléphone" required>
-                <label>📅 Date de départ : <br><input name="dateDepart" type="date" required></label>
-                <label>✈️ Heure du vol : <br><input name="heureVol" type="time" required></label>
-                <label>📅 Date de retour : <br><input name="dateRetour" type="date" required></label>
-                <select name="pack">
-                    <option>Standard</option>
-                    <option>Confort</option>
-                    <option>VIP</option>
-                </select>
-                <!--<button class="secondary" type="submit">Réserver</button>-->
-
-            </form>
-            <form id="register-form" class="form-step">
-                <input type="text" name="signupNom" id="register-nom" placeholder="Nom complet" required />
-                <input type="tel" name="signupPhone" id="register-phone" placeholder="Téléphone" required />
-                <input type="email" name="signupEmail" id="register-email" placeholder="Email" required />
-                <input type="password" name="signupPassword" id="register-password"
-                    placeholder="Choisissez un mot de passe" required />
-                <button class="secondary" type="submit">S’inscrire</button>
-            </form>
-
-
-            <div class="nav-footer">
-                <button id="nextBtn" class="next-btn">➔</button>
+        <div class="content-wrapper">
+            <div id="present">
+                <h1>Stationnez votre voiture en toute confiance</h1>
+                <p>
+                    Profitez de notre service de voiturier qui vous offre bien plus qu’un simple parking sécurisé.
+                    Que vous soyez en voyage d'affaires, en vacances ou en déplacement professionnel, nous vous
+                    proposons des solutions flexibles et adaptées à toutes vos attentes.
+                    Nos différents packs de services vous permettent de choisir entre la simplicité, le confort amélioré
+                    ou la prise en charge complète de votre véhicule, avec des prestations personnalisées allant du
+                    stationnement sécurisé à l’entretien complet et au nettoyage, grâce à nos partenaires professionnels
+                    agréés.
+                    Gagnez du temps, évitez le stress du parking et bénéficiez d’une expérience premium où chaque détail
+                    est pensé pour votre tranquillité d’esprit.
+                    Notre équipe expérimentée est disponible 24h/24 pour assurer la sécurité et le soin de votre
+                    voiture, et vous offrir un service clé en main du dépôt jusqu’à la restitution.
+                    Simplifiez vos déplacements et offrez-vous la sérénité en confiant votre véhicule à des experts.
+                </p>
             </div>
 
+            <div class="form-container">
+                <form id="form-step-1" class="form-step active">
+                    <input name="clientNom" placeholder="Nom" required>
+                    <input name="clientEmail" type="email" placeholder="Email" required>
+                    <input name="clientPhone" type="tel" placeholder="Téléphone" required>
+                    <label>📅 Date de départ : <br><input name="dateDepart" type="date" required></label>
+                    <label>✈️ Heure du vol : <br><input name="heureVol" type="time" required></label>
+                    <label>📅 Date de retour : <br><input name="dateRetour" type="date" required></label>
+                    <select name="pack">
+                        <option>Standard</option>
+                        <option>Confort</option>
+                        <option>VIP</option>
+                    </select>
+                    <!--<button class="secondary" type="submit">Réserver</button>-->
+                </form>
+
+                <form id="register-form" class="form-step">
+                    <input type="text" name="signupNom" id="register-nom" placeholder="Nom complet" required />
+                    <input type="tel" name="signupPhone" id="register-phone" placeholder="Téléphone" required />
+                    <input type="email" name="signupEmail" id="register-email" placeholder="Email" required />
+                    <input type="password" name="signupPassword" id="register-password"
+                        placeholder="Choisissez un mot de passe" required />
+                    <button class="secondary" type="submit">S’inscrire</button>
+                </form>
+
+                <div class="nav-footer">
+                    <button id="nextBtn" class="next-btn">➔</button>
+                </div>
+            </div>
         </div>
+
         <div class="progress-bar">
             <div class="progress" id="progressIndicator"></div>
         </div>
+
+        <section class="offres-scroll">
+            <div class="offres-container">
+                <!-- Groupe 1 -->
+                <div class="offre">
+                    <div class="offre-text">
+                        <h2>Un service voiturier sécurisé</h2>
+                        <p>
+                            Notre équipe prend en charge votre véhicule dès votre arrivée et le gare dans un parking
+                            sécurisé. Plus besoin de chercher une place, profitez d’un service rapide et fiable, 24h/24
+                            et 7j/7.
+                        </p>
+                    </div>
+                    <img src="img/prise-en-charge.png" alt="Service de voiturier" />
+                </div>
+
+                <div class="offre">
+                    <div class="offre-text">
+                        <h2>Des packs adaptés à vos besoins</h2>
+                        <p>
+                            Choisissez parmi trois packs : <strong>Standard</strong>, <strong>Confort</strong> et
+                            <strong>VIP</strong>. Chacun propose des services personnalisés comme le nettoyage,
+                            l’entretien ou encore un parking couvert.
+                        </p>
+                    </div>
+                    <img src="img/pack.png" alt="Packs et options disponibles" />
+                </div>
+
+                <div class="offre">
+                    <div class="offre-text">
+                        <h2>L’excellence à chaque étape</h2>
+                        <p>
+                            Home Park, c’est bien plus qu’un parking. C’est une expérience pensée pour vous simplifier
+                            la vie, alliant efficacité, confort et professionnalisme.
+                        </p>
+                    </div>
+                    <img src="img/premium.png" alt="Service premium" />
+                </div>
+
+                <!-- Groupe 2 (copié pour boucle continue) -->
+                <div class="offre">
+                    <div class="offre-text">
+                        <h2>Un service voiturier sécurisé</h2>
+                        <p>
+                            Notre équipe prend en charge votre véhicule dès votre arrivée et le gare dans un parking
+                            sécurisé. Plus besoin de chercher une place, profitez d’un service rapide et fiable, 24h/24
+                            et 7j/7.
+                        </p>
+                    </div>
+                    <img src="img/prise-en-charge.png" alt="Service de voiturier" />
+                </div>
+
+                <div class="offre">
+                    <div class="offre-text">
+                        <h2>Des packs adaptés à vos besoins</h2>
+                        <p>
+                            Choisissez parmi trois packs : <strong>Standard</strong>, <strong>Confort</strong> et
+                            <strong>VIP</strong>. Chacun propose des services personnalisés comme le nettoyage,
+                            l’entretien ou encore un parking couvert.
+                        </p>
+                    </div>
+                    <img src="img/pack.png" alt="Packs et options disponibles" />
+                </div>
+
+                <div class="offre">
+                    <div class="offre-text">
+                        <h2>L’excellence à chaque étape</h2>
+                        <p>
+                            Home Park, c’est bien plus qu’un parking. C’est une expérience pensée pour vous simplifier
+                            la vie, alliant efficacité, confort et professionnalisme.
+                        </p>
+                    </div>
+                    <img src="img/premium.png" alt="Service premium" />
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer>
 
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-contact">
+                <h3>Contactez-nous</h3>
+                <p>📍 Adresse : 123 Rue du Parking, 75000 Paris</p>
+                <p>📞 Assistance 24/7 : <a href="tel:+33123456789">+33 1 23 45 67 89</a></p>
+            </div>
+            <div class="footer-legal">
+                <h3>Informations légales</h3>
+                <ul>
+                    <li><a href="cgu.pdf" target="_blank" rel="noopener">Conditions Générales d'Utilisation</a></li>
+                    <li><a href="https://www.privacypolicies.com/live/cabb3d2b-698a-4d78-8eb1-22dd0625c272"
+                            target="_blank" rel="noopener">Politique de Confidentialité</a></li>
+                    <li><a href="mentions.html" target="_blank" rel="noopener">Mentions Légales</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Home Park - Tous droits réservés.
+                <br> Site web codé par alfus, tchapson & juniorBGYK
+            </p>
+        </div>
     </footer>
+
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/index.js"></script>
 </body>
-
-
