@@ -28,24 +28,18 @@
 
 
     <main>
-        <div class="content-wrapper">
-            <div id="present">
-                <h1>Stationnez votre voiture en toute confiance</h1>
-                <p>
-                    Profitez de notre service de voiturier qui vous offre bien plus qu’un simple parking sécurisé.
-                    Que vous soyez en voyage d'affaires, en vacances ou en déplacement professionnel, nous vous
-                    proposons des solutions flexibles et adaptées à toutes vos attentes.
-                    Nos différents packs de services vous permettent de choisir entre la simplicité, le confort amélioré
-                    ou la prise en charge complète de votre véhicule, avec des prestations personnalisées allant du
-                    stationnement sécurisé à l’entretien complet et au nettoyage, grâce à nos partenaires professionnels
-                    agréés.
-                    Gagnez du temps, évitez le stress du parking et bénéficiez d’une expérience premium où chaque détail
-                    est pensé pour votre tranquillité d’esprit.
-                    Notre équipe expérimentée est disponible 24h/24 pour assurer la sécurité et le soin de votre
-                    voiture, et vous offrir un service clé en main du dépôt jusqu’à la restitution.
-                    Simplifiez vos déplacements et offrez-vous la sérénité en confiant votre véhicule à des experts.
+        <section id="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Bienvenue sur <span class="accent">Home Parking</span></h1>
+                <p class="hero-description">
+                Profitez de notre service de voiturier qui vous offre bien plus qu’un simple parking sécurisé.
+                Nos solutions s’adaptent à tous vos besoins, pour un voyage sans stress.
                 </p>
+                <a href="#form-step-1" class="hero-btn">✅ c'est parti!</a>
             </div>
+        </section>
+
+        <div class="content-wrapper">
 
             <div class="form-container">
                 <form id="form-step-1" class="form-step active">
@@ -76,6 +70,23 @@
                     <button id="nextBtn" class="next-btn">➔</button>
                 </div>
             </div>
+
+           <div class="illustration-container">
+                <img src="img/illustration-parking.png" alt="Illustration parking" class="animated-illustration">
+                
+                <div class="stats">
+                    <div><strong>+5000</strong><br>Clients satisfaits</div>
+                    <div><strong>24h/24</strong><br>Prise en charge</div>
+                    <div><strong>100%</strong><br>Sécurisé & fiable</div>
+                </div>
+
+                <div class="mascotte-guide">
+                    <img src="img/mascotte-guide.png" alt="Guide HomePark" />
+                    <p class="guide-texte">Faites votre réservation ici 👈</p>
+                </div>
+            </div>
+
+            
         </div>
 
         <div class="progress-bar">
@@ -159,7 +170,30 @@
         </section>
     </main>
 
+    <section id="guide-utilisation" style="display: none;">
+        <div class="guide-content">
+            <h2 id="etape-titre">Étape 1 : Créez votre compte</h2>
+            <p id="etape-texte">
+            Inscrivez-vous avec votre nom, téléphone et email pour accéder à nos services de réservation personnalisés.
+            </p>
+            <div class="guide-buttons">
+            <button id="btn-prec" disabled>⬅️ Précédent</button>
+            <button id="btn-suiv">Suivant ➡️</button>
+            <button id="btn-reserver-final" style="display: none;">🚗 Réserver maintenant</button>
+            </div>
+        </div>
+    </section>
 
+    <section class="presentation-animated">
+        <h2>Stationnez votre voiture en toute confiance</h2>
+        <div class="presentation-text">
+            <p class="animated-block">Profitez d’un <strong>service voiturier sécurisé</strong> pensé pour tous vos déplacements.</p>
+            <p class="animated-block">Choisissez parmi nos <strong>packs personnalisés</strong> : simplicité, confort ou prise en charge complète.</p>
+            <p class="animated-block">Gagnez du temps, évitez le stress, et vivez une <strong>expérience premium</strong>.</p>
+            <p class="animated-block">Nos équipes sont disponibles <strong>24h/24</strong> pour assurer la <strong>sécurité</strong> de votre véhicule.</p>
+            <p class="animated-block">Confiez votre voiture à des <strong>experts passionnés</strong> et partez l’esprit tranquille.</p>
+        </div>
+    </section>
 
     <footer>
         <div class="footer-container">
