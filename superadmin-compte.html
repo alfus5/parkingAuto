@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Compte Superadmin</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root {
+      --c-accent: #f47b5f;
+      --c-accent-dark: #de5e42;
+      --c-bg: #fff9f3;
+      --c-text: #334155;
+      --c-prune: #922c40;
+      --radius: 10px;
+      --shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+      --btn-color: #475569;
+      --btn-hover: #334155;
+    }
+
+    body {
+      background: url('img/bg-homeparking.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+    }
+
+    .admin-container {
+      max-width: 1000px;
+      margin: 4rem auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .profile-header h2 {
+      color: var(--c-prune);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .actions button {
+      flex: 1;
+      padding: 0.5rem 1.2rem;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-weight: bold;
+      color: white;
+    }
+
+    .btn-modif { background-color: var(--c-accent); }
+    .btn-modif:hover { background-color: var(--c-accent-dark); }
+    .btn-supprimer { background-color: #dc3545; }
+    .btn-supprimer:hover { background-color: #b02a37; }
+    .btn-deconnexion { background-color: var(--btn-color); }
+    .btn-deconnexion:hover { background-color: var(--btn-hover); }
+
+    .infos-utilisateur {
+      display: none;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-top: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+
+    th, td {
+      padding: 0.6rem;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background: #f8f8f8;
+      color: var(--c-prune);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    #account-icon img {
+      width: 40px;
+      height: 40px;
+    }
+  </style>
+</head>
+<body>
+
+    <div id="account-icon">
+        <a href="admin.html">
+            <img src="./img/account-icon.png" alt="Espace compte" />
+        </a>
+    </div>
+
+  <div class="admin-container">
+    <div class="profile-header">
+      <h2>Bienvenue, <span id="client-nom">Superadmin</span></h2>
+    </div>
+
+    <div class="actions">
+      <button class="btn-modif" onclick="toggleModif()">✏️ Modifier mes infos</button>
+      <button class="btn-supprimer" onclick="deleteAccount()">🗑 Supprimer mon compte</button>
+      <button class="btn-deconnexion" onclick="logout()">🔓 Se déconnecter</button>
+    </div>
+
+    <!-- Bloc infos utilisateur -->
+    <div class="infos-utilisateur" id="infos-utilisateur">
+      <h3>Mes informations</h3>
+      <div class="form-grid">
+        <div class="old-info">
+        <ul style="list-style: none; padding-left: 0;">
+            <li>
+            🔹 <strong>Nom :</strong> <span id="old-nom">—</span>
+            </li>
+            <li style="margin-top: 10px;">
+            🔹 <strong>Email :</strong> <span id="old-email">—</span><br>
+            <small style="color: #555;">
+                – L’email est utilisé pour la connexion et ne peut pas être modifié pour des raisons de sécurité.<br>
+                – <em>Si besoin :</em> créez un nouveau compte avec une autre adresse puis supprimez l'ancien.
+            </small>
+            </li>
+            <li style="margin-top: 10px;">
+            🔹 <strong>Mot de passe :</strong> ********<br>
+            <small style="color: #555;">
+                – Le mot de passe peut être changé dans le formulaire à droite.<br>
+                – Laissez le champ vide si vous ne souhaitez pas le modifier.
+            </small>
+            </li>
+            <li style="margin-top: 10px;">
+            🔹 <strong>Téléphone :</strong> <span id="old-tel">—</span>
+            </li>
+            <li style="margin-top: 10px;">
+            🔹 <strong>Rôle :</strong> <span id="role">—</span><br>
+            <small style="color: #555;">
+                – Le rôle est défini à la création du compte et ne peut pas être modifié. Contactez le créateur du site pour toute autre information.
+            </small>
+            </li>
+        </ul>
+        </div>
+
+
+        <form id="modif-form">
+          <label>Nom :
+            <input type="text" id="modif-nom" />
+          </label>
+          <label>Email :
+            <input type="email" id="modif-email" disabled />
+          </label>
+          <label>Téléphone :
+            <input type="tel" id="modif-tel" />
+          </label>
+          <label>Nouveau mot de passe :
+            <input type="password" id="modif-mdp" placeholder="Laisser vide pour ne pas changer" />
+          </label>
+          <button type="submit">💾 Enregistrer</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tableaux -->
+    <h3>Collaborateurs (admins)</h3>
+    <table>
+      <thead>
+        <tr><th>Nom</th><th>Email</th><th>Téléphone</th></tr>
+      </thead>
+      <tbody id="admin-list"></tbody>
+    </table>
+
+    <h3>Clients</h3>
+    <table>
+      <thead>
+        <tr><th>Nom</th><th>Email</th><th>Téléphone</th></tr>
+      </thead>
+      <tbody id="client-list"></tbody>
+    </table>
+
+    <h3>Messages envoyés</h3>
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Message</th><th>Destinataire</th></tr>
+      </thead>
+      <tbody id="message-list"></tbody>
+    </table>
+  </div>
+
+  <script type="module" src="js/superadmin-compte.js"></script>
+</body>
+</html>

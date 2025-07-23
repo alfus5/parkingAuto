@@ -40,6 +40,11 @@ onAuthStateChanged(auth, async (user) => {
 
   chargerUtilisateurs();
   chargerReservations();
+  document.getElementById("search-input")?.addEventListener("input", chargerReservations);
+  document.getElementById("filter-statut")?.addEventListener("change", chargerReservations);
+  document.getElementById("filter-pack")?.addEventListener("change", chargerReservations);
+  document.getElementById("global-filter")?.addEventListener("input", chargerReservations);
+
 });
 
 // 📂 Liste des utilisateurs
@@ -127,6 +132,37 @@ async function chargerReservations() {
 
   resSnap.forEach(docu => {
     const r = docu.data();
+    // 🔎 Filtres dynamiques
+    const searchQuery = document.getElementById("search-input")?.value?.toLowerCase() || "";
+    const selectedStatut = document.getElementById("filter-statut")?.value || "";
+    const selectedPack = document.getElementById("filter-pack")?.value || "";
+    const globalQuery = document.getElementById("global-filter")?.value?.toLowerCase() || "";
+
+
+    if (
+      (selectedStatut && r.statut !== selectedStatut) ||
+      (selectedPack && r.pack !== selectedPack) ||
+      (searchQuery && !(
+        r.clientNom?.toLowerCase().includes(searchQuery) ||
+        r.clientEmail?.toLowerCase().includes(searchQuery)
+      ))
+    ) return;
+
+    if (
+      globalQuery && !(
+        (r.clientNom ?? "").toLowerCase().includes(globalQuery) ||
+        (r.clientEmail ?? "").toLowerCase().includes(globalQuery) ||
+        (r.clientPhone ?? "").toLowerCase().includes(globalQuery) ||
+        (r.lieu ?? "").toLowerCase().includes(globalQuery) ||
+        (r.numVol ?? "").toLowerCase().includes(globalQuery) ||
+        (r.statut ?? "").toLowerCase().includes(globalQuery) ||
+        (r.pack ?? "").toLowerCase().includes(globalQuery) ||
+        (r.dateDepart?.toDate().toLocaleDateString("fr-FR") ?? "").includes(globalQuery) ||
+        (r.dateRetour?.toDate().toLocaleDateString("fr-FR") ?? "").includes(globalQuery)
+      )
+    ) return;
+
+
     total++;
 
     // Statut
@@ -203,6 +239,9 @@ window.supprimerUtilisateur = async (uid, nom) => {
     alert("✅ Compte & réservations supprimés.");
     chargerUtilisateurs();
     chargerReservations();
+
+
+
   } catch (err) {
     console.error(err);
     alert("❌ Erreur : " + err.message);

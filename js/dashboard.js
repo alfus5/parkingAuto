@@ -141,19 +141,21 @@ function majStatsEtAffichage() {
 
     /* Ligne HTML générique */
     const rowHTML = `
-    <td>${r.clientNom}</td>
-    <td><a href="mailto:${r.clientEmail}">${r.clientEmail}</a></td>
-    <td><a href="tel:${r.clientPhone ?? ''}">${r.clientPhone ?? '(numéro manquant)'}</a></td>
-    <td>${r.dateDepart?.toDate().toLocaleDateString('fr-FR') ?? ''}</td>
-    <td>${r.heureVol ?? '(heure vol manquante)'}</td>
-    <td>${r.heureVol ? heureRDV(r.heureVol) : '(rdv inconnu)'}</td>
-    <td>${r.dateRetour?.toDate().toLocaleDateString('fr-FR') ?? ''}</td>
-    <td class="statut">${r.statut}</td>
-    <td>${r.pack}</td>
-    <td>${!r.assignedTo
-          ? `<button class="btn-assign" data-id="${r.id}">Prendre</button>`
-          : assignedNom}
-    </td>`;
+      <td>${r.clientNom}</td>
+      <td><a href="mailto:${r.clientEmail}">${r.clientEmail}</a></td>
+      <td><a href="tel:${r.clientPhone ?? ''}">${r.clientPhone ?? '(numéro manquant)'}</a></td>
+      <td>${r.dateDepart?.toDate().toLocaleDateString('fr-FR') ?? ''}</td>
+      <td>${r.heureVol ?? '(heure vol manquante)'}</td>
+      <td>${r.heureVol ? heureRDV(r.heureVol) : '(rdv inconnu)'}</td>
+      <td>${r.numeroVol ?? '(vol inconnu)'}</td>
+      <td>${r.lieuRDV ?? 'Aéroport CDG'}</td>
+      <td>${r.dateRetour?.toDate().toLocaleDateString('fr-FR') ?? ''}</td>
+      <td class="statut">${r.statut}</td>
+      <td>${r.pack}</td>
+      <td>${!r.assignedTo
+            ? `<button class="btn-assign" data-id="${r.id}">Prendre</button>`
+            : assignedNom}
+      </td>`;
 
 
     /* Ajout dans le bon tableau */
@@ -210,8 +212,9 @@ document.getElementById("export-csv")?.addEventListener("click", () => {
   }
 
   const lignes = [
-    ["Nom", "Email", "Téléphone", "Date départ", "Heure vol", "RDV voiturier", "Date retour", "Statut", "Pack", "Pris en charge par"]
+    ["Nom", "Email", "Téléphone", "Date départ", "Heure vol", "RDV voiturier", "Numéro vol", "Lieu RDV", "Date retour", "Statut", "Pack", "Pris en charge par"]
   ];
+
 
   allRes.forEach(r => {
     const rdv = r.heureVol ? heureRDV(r.heureVol) : "";
@@ -223,12 +226,15 @@ document.getElementById("export-csv")?.addEventListener("click", () => {
       r.clientPhone ?? "",
       r.dateDepart?.toDate().toLocaleDateString("fr-FR") ?? "",
       r.heureVol ?? "",
-      rdv,
+      r.heureVol ? heureRDV(r.heureVol) : "",
+      r.numeroVol ?? "",
+      r.lieuRDV ?? "Aéroport CDG",
       r.dateRetour?.toDate().toLocaleDateString("fr-FR") ?? "",
       r.statut ?? "",
       r.pack ?? "",
       assigné
-    ]);
+]);
+
   });
 
   const contenu = lignes.map(row => row.map(v => `"${v}"`).join(";")).join("\n");

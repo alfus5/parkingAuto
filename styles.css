@@ -15,14 +15,18 @@
 
 /* ---------- Reset léger ---------- */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family: system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-  background: var(--c-bg);
+
+body {
+  font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: url('./img/bg-homeparking.png') no-repeat center center fixed;
+  background-size: cover;
   color: var(--c-text);
-  line-height:1.45;
+  line-height: 1.45;
   padding: 2rem;
-  animation: fade .6s ease;
+  animation: fade 0.6s ease;
 }
+
+
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
 
 h1,h2{margin-bottom:.6rem;font-weight:600;color:var(--c-prune)}
@@ -126,3 +130,5 @@ table{animation:slide-in .4s ease}
 .payer-btn:hover {
   background-color: #45a049;
 }
+
+

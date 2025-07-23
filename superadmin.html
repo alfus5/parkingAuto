@@ -10,6 +10,19 @@
     th, td { border: 1px solid #aaa; padding: 8px; text-align: left; }
     th { background: #f0f0f0; }
     #superadmin-panel { display: none; }
+
+    #account-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    #account-icon img {
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
   </style>
   <link rel="stylesheet" href="styles.css">
 
@@ -29,8 +42,32 @@
     </script>
 
   <button class="secondary" id="logout-btn" style="display: none;">🔓 Se déconnecter</button>
+  <div id="account-icon">
+    <a href="superadmin-compte.html">
+      <img src="./img/account-icon.png" alt="Espace compte" />
+    </a>
+  </div>
+
 
   <h1>👑 Tableau de bord du Superadmin</h1>
+
+  <!-- 🔎 Filtres -->
+  <div style="margin-top: 20px;">
+    <input type="text" id="search-input" placeholder="🔍 Rechercher nom ou email" />
+    <select id="filter-statut">
+      <option value="">Tous statuts</option>
+      <option value="payé">Payé</option>
+      <option value="annulé">Annulé</option>
+      <option value="acompte">Acompte</option>
+    </select>
+    <select id="filter-pack">
+      <option value="">Tous packs</option>
+      <option value="Standard">Standard</option>
+      <option value="Confort">Confort</option>
+      <option value="VIP">VIP</option>
+    </select>
+  </div>
+
 
   <!-- 🎛️ Panneau principal -->
   <div id="superadmin-panel">
@@ -49,6 +86,11 @@
         </thead>
         <tbody></tbody>
     </table>
+
+    <!-- 🔎 Filtre global -->
+    <div style="margin-top: 20px;">
+      <input type="text" id="global-filter" placeholder="🔍 Filtrer sur toutes les colonnes (nom, email, date, etc.)" style="width: 100%; padding: 8px;" />
+    </div>
 
 
     <h2>📋 Réservations</h2>

@@ -21,6 +21,19 @@
       margin-top: 30px;
       color: #333;
     }
+
+    #account-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    #account-icon img {
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
   </style>
   <link rel="stylesheet" href="styles.css">
 
@@ -43,6 +56,12 @@
 
   <!-- 🔓 Déconnexion -->
   <button class="secondary" id="logout-btn" style="display:none;">🔓 Se déconnecter</button>
+  <div id="account-icon">
+    <a href="admin.html">
+      <img src="./img/account-icon.png" alt="Espace compte" />
+    </a>
+  </div>
+
 
   <!-- 📊 Tableau de bord -->
   <div id="admin-panel">
@@ -92,6 +111,8 @@
           <th>Date départ</th>
           <th>Heure du vol</th>
           <th>RDV Voiturier</th>
+          <th>Numéro vol</th>
+          <th>Lieu RDV</th>
           <th>Date Retour</th>
           <th>Statut</th>
           <th>Pack</th>
@@ -100,6 +121,7 @@
       </thead>
       <tbody></tbody>
     </table>
+
 
     <!-- 🚗 Mes prises en charge -->
     <h2>🚗 Mes prises en charge</h2>
@@ -112,7 +134,9 @@
           <th>Date départ</th>
           <th>Heure du vol</th>
           <th>RDV Voiturier</th>
-          <th>Date retour</th>
+          <th>Numéro vol</th>
+          <th>Lieu RDV</th>
+          <th>Date Retour</th>
           <th>Statut</th>
           <th>Pack</th>
           <th>Qui</th>
@@ -120,7 +144,7 @@
       </thead>
       <tbody></tbody>
     </table>
-
+    
     <!-- 🆕 Réservations à prendre -->
     <h2>🆕 À prendre en charge</h2>
     <table id="table-free">
@@ -132,7 +156,9 @@
           <th>Date départ</th>
           <th>Heure du vol</th>
           <th>RDV Voiturier</th>
-          <th>Date retour</th>
+          <th>Numéro vol</th>
+          <th>Lieu RDV</th>
+          <th>Date Retour</th>
           <th>Statut</th>
           <th>Pack</th>
           <th>Action</th>
@@ -140,6 +166,7 @@
       </thead>
       <tbody></tbody>
     </table>
+
 
     <!-- 📩 Message du boss -->
     <div id="admin-message" style="display:none; background:#fff3cd; padding:10px; margin:20px 0; border-left:5px solid orange;">

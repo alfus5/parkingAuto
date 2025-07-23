@@ -128,13 +128,25 @@
       <form id="signup-form">
         <h2>Créer un compte</h2>
         <input type="text" id="signup-nom" placeholder="Nom complet" required />
-        <input type="tel" id="signup-phone" placeholder="Téléphone" required />
+        <input type="tel" id="signup-phone" placeholder="+33 123456789" pattern="^\+\d{1,4}\s?\d{6,14}$" title="Numéro au format international requis, ex : +33 123456789" required />
         <input type="email" id="signup-email" placeholder="Email" required />
-        <input type="password" id="signup-password" placeholder="Mot de passe" required />
+        <input type="password" id="signup-password" placeholder="Mot de passe sécurisé" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$" title="Minimum 8 caractères avec majuscule, minuscule, chiffre et symbole (!@#$...)" required />
         <button type="submit">S’inscrire</button>
       </form>
     </div>
   </div>
+
+  <script>
+    document.querySelectorAll("form").forEach(f => {
+      f.addEventListener("submit", (e) => {
+        if (!f.checkValidity()) {
+          e.preventDefault();
+          alert("❌ Veuillez corriger les erreurs du formulaire.");
+        }
+      });
+    });
+  </script>
+
 
   <script type="module" src="./js/login.js"></script>
 </body>

@@ -1,14 +1,29 @@
+
 import { guard } from './authGuard.js';
 import { auth, db } from './firebase-config.js';
 import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
-import {
-  query, collection, where, getDocs
-} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
-import { onSnapshot } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+  onAuthStateChanged,
+  updateProfile,
+  updatePassword,
+  signOut,
+  deleteUser,
+  updateEmail   
 
-// ...
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+
+import {
+  query,
+  collection,
+  where,
+  getDocs,
+  onSnapshot,
+  getDoc,       
+  doc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+
 
 function calculerPrix(dateDepart, dateRetour, pack) {
   const MS_PAR_JOUR = 1000 * 60 * 60 * 24;
@@ -53,18 +68,17 @@ function calculerPrix(dateDepart, dateRetour, pack) {
   return Math.round(prixFinal * 100) / 100; // arrondi à 2 décimales
 }
 
-guard().then(initPage);  // aucun rôle spécifique requis
-
 const section = document.getElementById("mes-reservations");
-const tbody = document.querySelector("#table-client tbody");
+const tbody = document.getElementById("table-client");
 
 function heureRDV(h) {
   if (!h) return "(inconnue)";
   const [hr, min] = h.split(":").map(Number);
   const rdv = new Date();
-  rdv.setHours(hr - 2, min, 0); // RDV = 2h avant
+  rdv.setHours(hr - 3, min, 0); // RDV = 3h avant
   return rdv.toTimeString().slice(0, 5);
 }
+
 
 function formatDate(firestoreDate) {
   try {
@@ -76,12 +90,14 @@ function formatDate(firestoreDate) {
 
 export async function initPage() {
   const section = document.getElementById("mes-reservations");
-  const tbody = document.querySelector("#table-client tbody");
+  const tbody = document.getElementById("table-client");
 
   onAuthStateChanged(auth, async (user) => {
     if (!user) return;
 
     if (section) section.style.display = "block";
+
+    await afficherInfosUtilisateur(user);
 
     const q = query(
       collection(db, "reservations"),
@@ -89,86 +105,162 @@ export async function initPage() {
     );
 
     onSnapshot(q, (snap) => {
+      if (!tbody) return;
       tbody.innerHTML = "";
 
-      if (snap.empty) {
-        tbody.innerHTML = `<tr><td colspan="6">Aucune réservation trouvée.</td></tr>`;
+      if (snap.empty) { 
+        tbody.innerHTML = `<tr><td colspan="8">Aucune réservation trouvée.</td></tr>`;
         return;
       }
 
       snap.forEach(doc => {
         const r = doc.data();
-
         const tr = document.createElement("tr");
 
-        const prix = calculerPrix(r.dateDepart, r.dateRetour, r.pack);
+        const tdStatut = document.createElement("td");
+        if (r.statut === "acompte") {
+          const btn = document.createElement("button");
+          btn.textContent = "💳 Payer";
+          btn.className = "payer-btn";
+          btn.onclick = () => {
+            window.location.href = `paiement.html?id=${doc.id}`;
+          };
+          tdStatut.appendChild(btn);
+        } else {
+          tdStatut.textContent = r.statut;
+        }
 
         tr.innerHTML = `
           <td>${formatDate(r.dateDepart)}</td>
-          <td>${r.heureVol ?? "(non précisé)"}</td>
-          <td>${r.heureVol ? heureRDV(r.heureVol) : "(inconnu)"}</td>
+          <td>${r.heureVol ?? "(non précisée)"}</td>
+          <td>${r.heureVol ? heureRDV(r.heureVol) : "(inconnue)"}</td>
+          <td>${r.numeroVol ?? "(non précisé)"}</td>
           <td>${formatDate(r.dateRetour)}</td>
           <td>${r.pack}</td>
-          <td>
-            ${r.statut === "acompte" ? 
-              `<button onclick="alert('Paiement demandé pour la réservation du ${formatDate(r.dateDepart)}.');" class="payer-btn" data-id="${doc.id}" data-prix="${prix.toFixed(2)}">Payer ${prix.toFixed(2)} €</button>` 
-              : r.statut}
-          </td>
+          <td>${r.lieuRDV ?? "Aéroport Charles de Gaulle"}</td>
         `;
-        tbody.appendChild(tr);
 
-        tbody.querySelectorAll('.payer-btn').forEach(button => {
-          button.addEventListener('click', e => {
-            const idReservation = e.target.dataset.id;
-            const prix = e.target.dataset.prix;
-            // redirection avec id et prix en query params
-            window.location.href = `paiement.html?id=${idReservation}&prix=${prix}`;
-          });
-        });
+        tr.appendChild(tdStatut);
+        tbody.appendChild(tr);
       });
     });
   });
+
 }
 
 
+// Affiche/Masque le bloc de modification
+function toggleModif() {
+  const bloc = document.getElementById("infos-utilisateur");
+  bloc.style.display = bloc.style.display === "none" ? "block" : "none";
+}
+window.toggleModif = toggleModif;
 
-snap.forEach(doc => {
-  const r = doc.data();
-  const tr = document.createElement("tr");
+async function afficherInfosUtilisateur(user) {
+  try {
+    const q = query(collection(db, "users"), where("email", "==", user.email));
+    const querySnapshot = await getDocs(q);
 
-  // Crée la cellule de statut
-  const tdStatut = document.createElement("td");
-  if (r.statut === "acompte") {
-    const btn = document.createElement("button");
-    btn.textContent = "💳 Payer";
-    btn.className = "payer-btn";
-    btn.onclick = () => {
-      // TODO: Ajoute ici l'action de paiement
-      alert(`Paiement demandé pour la réservation du ${formatDate(r.dateDepart)}.`);
-    };
-    tdStatut.appendChild(btn);
-  } else {
-    tdStatut.textContent = r.statut;
+    if (!querySnapshot.empty) {
+      const docSnap = querySnapshot.docs[0];
+      const data = docSnap.data();
+
+    if (document.getElementById("old-nom"))
+      document.getElementById("old-nom").textContent = data.nom ?? "(non défini)";
+    if (document.getElementById("old-email"))
+      document.getElementById("old-email").textContent = data.email ?? "(non défini)";
+    if (document.getElementById("modif-email"))
+      document.getElementById("modif-email").value = data.email ?? "";
+    if (document.getElementById("old-tel"))
+      document.getElementById("old-tel").textContent = data.telephone ?? "(non défini)";
+    if (document.getElementById("mdp-actuel"))
+      document.getElementById("mdp-actuel").textContent = "********";
+    if (document.getElementById("role"))
+    document.getElementById("role").textContent = data.role ?? "(non défini)";
+
+
+    } else {
+      console.warn("Aucune donnée utilisateur trouvée dans Firestore.");
+    }
+
+  } catch (err) {
+    console.error("Erreur lors du chargement des infos utilisateur :", err);
   }
+}
 
-  // Assemble la ligne
-  tr.innerHTML = `
-    <td>${formatDate(r.dateDepart)}</td>
-    <td>${r.heureVol ?? "(non précisé)"}</td>
-    <td>${r.heureVol ? heureRDV(r.heureVol) : "(inconnu)"}</td>
-    <td>${formatDate(r.dateRetour)}</td>
-    <td>${r.pack}</td>
-  `;
-  tr.appendChild(tdStatut); // Ajoute la cellule statut (avec ou sans bouton)
 
-  tbody.appendChild(tr);
+function logout() {
+  signOut(auth).then(() => {
+    window.location.href = "login.html";
+  }).catch(err => {
+    alert("Erreur lors de la déconnexion : " + err.message);
+  });
+}
+
+function deleteAccount() {
+  const confirmDelete = confirm("⚠️ Êtes-vous sûr de vouloir supprimer votre compte ?");
+  if (confirmDelete) {
+    const user = auth.currentUser;
+    deleteUser(user)
+      .then(() => {
+        alert("Votre compte a été supprimé.");
+        window.location.href = "index.html";
+      })
+      .catch(err => alert("Erreur : " + err.message));
+  }
+}
+
+const form = document.getElementById("modif-form");
+
+form?.addEventListener("submit", async e => {
+  e.preventDefault();
+  const user = auth.currentUser;
+
+  const newName = document.getElementById("modif-nom").value;
+  const newPhone = document.getElementById("modif-tel").value;
+  const newEmail = document.getElementById("modif-email").value; // ← nouveau champ email
+  const newPassword = document.getElementById("modif-mdp").value;
+
+  try {
+    if (newName && newName !== user.displayName) {
+      await updateProfile(user, { displayName: newName });
+    }
+
+    const ancienEmail = user.email; // on garde l'ancien email AVANT de le modifier
+
+    if (newEmail && newEmail !== user.email) {
+      await updateEmail(user, newEmail); // ← mise à jour auth
+    }
+
+    if (newPassword) {
+      await updatePassword(user, newPassword);
+    }
+
+    const q = query(collection(db, "users"), where("email", "==", ancienEmail));
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+      const docRef = snapshot.docs[0].ref;
+      await updateDoc(docRef, {
+        telephone: newPhone,
+        nom: newName,
+        email: newEmail
+      });
+    }
+
+    alert("✅ Informations mises à jour !");
+    toggleModif();
+  } catch (err) {
+    alert("Erreur : " + err.message);
+  }
 });
 
-btn.onclick = () => {
-  // Redirige vers la page de paiement ou appelle une fonction de traitement
-  window.location.href = `paiement.html?id=${doc.id}`;
-};
-
-
-
 window.calculerPrix = calculerPrix;
+
+// 👉 rendre les fonctions accessibles dans le HTML
+window.toggleModif = toggleModif;
+window.logout = logout;
+window.deleteAccount = deleteAccount; 
+
+window.addEventListener("DOMContentLoaded", () => {
+  guard().then(initPage);
+});
