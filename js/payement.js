@@ -22,7 +22,7 @@ paypal.Buttons({
         return actions.order.create({
             purchase_units: [{
                 amount: {
-                    value: prix || '10.00' // prix dynamique ou valeur par défaut
+                    value: prix// prix dynamique ou valeur par défaut
                 }
             }]
         });
