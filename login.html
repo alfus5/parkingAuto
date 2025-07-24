@@ -7,8 +7,15 @@
   <link rel="stylesheet" href="css/style.css">
   <style>
     body {
-      background-color: var(--c-bg);
-      color: var(--c-text);
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #212529;
+      text-align: left;
+      background: url('./img/bg-homeparking.png') no-repeat center center /cover;
     }
 
     .auth-container {
@@ -38,36 +45,59 @@
     .auth-forms {
       display: flex;
       gap: 2rem;
-      flex-wrap: wrap;
       justify-content: center;
+      align-items: center;
+      /* aligne verticalement */
+      flex-wrap: nowrap;
+      /* interdit le retour à la ligne */
       width: 100%;
       max-width: 960px;
-      align-items: flex-start;
     }
 
+    /* Formulaires */
     .auth-forms form {
       flex: 1 1 320px;
       background: #fff;
       padding: 2rem;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      display: grid;
-      gap: 0.8rem;
-      min-width: 280px;
-
-      flex: 1;
-      min-width: 300px;
-      /* Pour qu’ils ne soient pas trop étroits */
       display: flex;
       flex-direction: column;
+      min-width: 300px;
       min-height: 300px;
     }
 
+    /* Mascotte : taille réduite à 80% de la hauteur des formulaires */
+    .login-mascotte {
+      flex: 0 0 auto;
+      /* Ne grandit pas, ne rétrécit pas */
+      height: 80%;
+      /* 80% de la hauteur des formulaires */
+      max-height: 240px;
+      /* max hauteur */
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* Responsive : passe en colonne sous 768px */
     @media (max-width: 768px) {
       .auth-forms {
         flex-direction: column;
+        align-items: center;
+        flex-wrap: wrap;
+        /* permet retour à la ligne */
+      }
+
+      .login-mascotte {
+        order: 2;
+        margin: 1rem 0;
+        height: auto;
+        max-height: 160px;
+        width: 80%;
+        /* adapte la largeur */
       }
     }
+
 
     .auth-forms h2 {
       color: var(--c-prune);
@@ -100,13 +130,6 @@
     button:active {
       transform: translateY(0);
     }
-
-    @media (max-width: 768px) {
-      .auth-forms {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
   </style>
 </head>
 
@@ -125,12 +148,18 @@
         <button type="submit">Se connecter</button>
       </form>
 
+      <!-- Ajout de la classe login-mascotte ici -->
+      <img class="login-mascotte" src="img/mascotte-login.png" alt="mascotte de la Connexion">
+
       <form id="signup-form">
         <h2>Créer un compte</h2>
         <input type="text" id="signup-nom" placeholder="Nom complet" required />
-        <input type="tel" id="signup-phone" placeholder="+33 123456789" pattern="^\+\d{1,4}\s?\d{6,14}$" title="Numéro au format international requis, ex : +33 123456789" required />
+        <input type="tel" id="signup-phone" placeholder="+33 123456789" pattern="^\+\d{1,4}\s?\d{6,14}$"
+          title="Numéro au format international requis, ex : +33 123456789" required />
         <input type="email" id="signup-email" placeholder="Email" required />
-        <input type="password" id="signup-password" placeholder="Mot de passe sécurisé" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$" title="Minimum 8 caractères avec majuscule, minuscule, chiffre et symbole (!@#$...)" required />
+        <input type="password" id="signup-password" placeholder="Mot de passe sécurisé"
+          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$"
+          title="Minimum 8 caractères avec majuscule, minuscule, chiffre et symbole (!@#$...)" required />
         <button type="submit">S’inscrire</button>
       </form>
     </div>

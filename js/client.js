@@ -152,7 +152,8 @@ export async function initPage() {
 // Affiche/Masque le bloc de modification
 function toggleModif() {
   const bloc = document.getElementById("infos-utilisateur");
-  bloc.style.display = bloc.style.display === "none" ? "block" : "none";
+  const isHidden = window.getComputedStyle(bloc).display === "none";
+  bloc.style.display = isHidden ? "block" : "none";
 }
 window.toggleModif = toggleModif;
 

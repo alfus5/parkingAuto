@@ -78,45 +78,45 @@ function afficherTableauReservations(email) {
         <td>${r.pack}</td>
         <td>${r.lieuRDV ?? "CDG"}</td>
         <td>
-          ${
-            r.statut?.toLowerCase() === "payé"
-              ? "✅ Payé"
-              : (() => {
-                  const d1 = r.dateDepart?.toDate?.();
-                  const d2 = r.dateRetour?.toDate?.();
-                  const jours = d1 && d2 ? Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)) : 1;
-                  const prix = calculerPrix(r.pack, jours);
-                  return `
-                    <div style="font-size: 0.8em; color: gray;">En attente de paiement</div>
-                  `;
-                })()
-          }
-        </td>
-        <td>
-          ${
-            r.statut?.toLowerCase() !== "payé"
-              ? (() => {
-                  const d1 = r.dateDepart?.toDate?.();
-                  const d2 = r.dateRetour?.toDate?.();
-                  const jours = d1 && d2 ? Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)) : 1;
-                  const prix = calculerPrix(r.pack, jours);
-                  return `
-                    <button class="btn-payer" onclick="payerReservation('${docSnap.id}', ${prix})">
-                      💳 Payer – ${prix.toFixed(2)} €
-                    </button>
-                  `;
-                })()
-              : ""
-          }
-          <button class="btn-modif-res" data-id="${docSnap.id}">✏️ Modifier</button>
-          <button class="btn-suppr-res" data-id="${docSnap.id}">🗑️ Supprimer</button>
-        </td>
+          ${r.statut?.toLowerCase() === "payé"
+            ? "✅ Payé"
+            : (() => {
+              const d1 = r.dateDepart?.toDate?.();
+              const d2 = r.dateRetour?.toDate?.();
+              const jours = d1 && d2 ? Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)) : 1;
+              const prix = calculerPrix(r.pack, jours);
+              return `
+                  <div class="action-buttons">
+                  <button class="btn-payer" onclick="payerReservation('${docSnap.id}', ${prix})">
+                    💳 Payer – ${prix.toFixed(2)} €
+                  </button> </td>
+                <td>
+                  <button class="btn-modif-res" data-id="${docSnap.id}">✏️Modifier</button>
+                  <button class="btn-suppr-res" data-id="${docSnap.id}">🗑️Supprimer</button>
+                </td>
+              </div>
+        `;
+          })()
+        }
+</td>
 
       `;
 
       tbody.appendChild(tr);
 
-      // ✅ Ajouter encart admin s’il y a une prise en charge
+      // Ajout des écouteurs sur les boutons
+      const btnSupprimer = tr.querySelector(".btn-suppr-res");
+      const btnModifier = tr.querySelector(".btn-modif-res");
+
+      btnSupprimer.addEventListener("click", () => {
+        supprimerReservation(docSnap.id); // ✅ fonction déjà définie plus bas
+      });
+
+      btnModifier.addEventListener("click", () => {
+        modifierReservation(docSnap.id); // ✅ fonction déjà définie plus bas
+      });
+
+      // Bloc admin assigné
       if (r.assignedTo) {
         try {
           const adminRef = doc(db, "users", r.assignedTo);
@@ -143,7 +143,6 @@ function afficherTableauReservations(email) {
           console.error("Erreur récupération admin assigné :", err);
         }
       } else {
-        // 🔔 En attente de prise en charge
         const trAttente = document.createElement("tr");
         trAttente.className = "encart-attente";
         trAttente.innerHTML = `
@@ -155,14 +154,12 @@ function afficherTableauReservations(email) {
         `;
         tbody.appendChild(trAttente);
       }
-
-
     }
   });
-
 }
 
-window.payerReservation = function(id, montant) {
+
+window.payerReservation = function (id, montant) {
   // Redirection vers la page paiement avec ID et montant
   const url = `paiement.html?id=${id}&montant=${montant}`;
   window.location.href = url;
@@ -185,7 +182,7 @@ function heureRDV(h) {
   return rdv.toTimeString().slice(0, 5);
 }
 
-window.modifierReservation = function(id) {
+window.modifierReservation = function (id) {
   idEnCoursDeModification = id;
 
   const docRef = doc(db, "reservations", id);
@@ -218,7 +215,7 @@ window.modifierReservation = function(id) {
 };
 
 
-window.supprimerReservation = async function(id) {
+window.supprimerReservation = async function (id) {
   if (!confirm("❗ Supprimer cette réservation ?")) return;
   try {
     await deleteDoc(doc(db, "reservations", id));

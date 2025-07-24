@@ -197,3 +197,9 @@ document.querySelector(".hero-btn").addEventListener("click", (e) => {
   document.getElementById("guide-utilisation").style.display = "flex";
   afficherEtape(0);
 });
+
+
+const packContainer = document.getElementById('pack-container');
+
+// Dupliquer le contenu pour boucle continue
+packContainer.innerHTML += packContainer.innerHTML;
