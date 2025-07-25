@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
   <title>Espace Client</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-
     :root {
-    --c-accent: #f47b5f;
-    --c-accent-dark: #de5e42;
-    --c-bg: #fff9f3;
-    --c-text: #334155;
-    --c-prune: #922c40;
-    --radius: 10px;
-    --shadow: 0 4px 12px rgb(0 0 0 / 0.08);
-    --btn-color: #475569;     /* Slate 600 */
-    --btn-hover: #334155;     /* Slate 700 */
+      --c-accent: #f47b5f;
+      --c-accent-dark: #de5e42;
+      --c-bg: #fff9f3;
+      --c-text: #334155;
+      --c-prune: #922c40;
+      --radius: 10px;
+      --shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+      --btn-color: #475569;
+      /* Slate 600 */
+      --btn-hover: #334155;
+      /* Slate 700 */
 
     }
 
     button {
-        background: var(--btn-color);
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border-radius: var(--radius);
-        border: none;
-        cursor: pointer;
-        transition: 0.25s;
+      background: var(--btn-color);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: 0.25s;
     }
 
     button:hover {
-        background: var(--btn-hover);
+      background: var(--btn-hover);
     }
 
     body {
@@ -67,45 +69,49 @@
     }
 
     .actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
     }
 
     .actions button {
-    padding: 0.5rem 1.2rem;
-    border-radius: var(--radius);
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    font-weight: bold;
+      padding: 0.5rem 1.2rem;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-weight: bold;
     }
 
-    
+
     .btn-modif {
-    background-color: var(--c-accent);
-    color: white;
+      background-color: var(--c-accent);
+      color: white;
     }
 
     .btn-modif:hover {
-    background-color: var(--c-accent-dark);
+      background-color: var(--c-accent-dark);
     }
 
     .btn-deconnexion {
-    background-color: var(--btn-color);
-    color: white;
+      background-color: var(--btn-color);
+      color: white;
     }
+
     .btn-deconnexion:hover {
-    background-color: var(--btn-hover);
+      background-color: var(--btn-hover);
     }
 
     .btn-supprimer {
-    background-color: #dc3545; /* rouge vif */
-    color: white;
+      background-color: #dc3545;
+      /* rouge vif */
+      color: white;
     }
+
     .btn-supprimer:hover {
-    background-color: #b02a37; /* rouge foncé au survol */
+      background-color: #b02a37;
+      /* rouge foncé au survol */
     }
 
 
@@ -130,7 +136,8 @@
       overflow: hidden;
     }
 
-    th, td {
+    th,
+    td {
       padding: 0.7rem;
       border-bottom: 1px solid #eee;
       text-align: left;
@@ -142,50 +149,71 @@
     }
 
     .infos-utilisateur {
-    display: none;
-    margin-top: 3rem;
-    background: white;
-    padding: 1.5rem;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+      display: none;
+      margin-top: 3rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
     }
 
     .infos-utilisateur h3 {
-        color: var(--c-prune);
-        margin-bottom: 1rem;
+      color: var(--c-prune);
+      margin-bottom: 1rem;
     }
 
     #modif-form label {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
     }
 
     #modif-form input {
-        padding: 0.4rem;
-        border: 1px solid #ccc;
-        border-radius: var(--radius);
+      padding: 0.4rem;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
     }
 
     .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
     }
 
     .old-info {
-    background: #f9fafb;
-    padding: 1rem;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
+      background: #f9fafb;
+      padding: 1rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
     }
 
     .old-info p {
-    margin: 0.5rem 0;
-    }    
+      margin: 0.5rem 0;
+    }
+
+    .btn-retour {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      background-color: var(--primary-color, #007BFF);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-retour:hover {
+      background-color: var(--primary-dark, #0056b3);
+    }
   </style>
 </head>
+
 <body>
+  <a href="acceuil.html?modif=1" onclick="history.back()" class="btn-retour">← Retour</a>
   <div class="compte-container">
     <div class="profile-header">
       <h2>Bienvenue, <span id="client-nom">Client</span></h2>
@@ -193,93 +221,95 @@
     </div>
 
     <div class="actions">
-    <button class="btn-modif" onclick="toggleModif()">✏️ Modifier mes infos</button>
-    <button class="btn-supprimer" onclick="deleteAccount()">🗑 Supprimer mon compte</button>
-    <button class="btn-deconnexion" onclick="logout()">🔓 Se déconnecter</button>
+      <button class="btn-modif" onclick="toggleModif()">✏️ Modifier mes infos</button>
+      <button class="btn-supprimer" onclick="deleteAccount()">🗑 Supprimer mon compte</button>
+      <button class="btn-deconnexion" onclick="logout()">🔓 Se déconnecter</button>
     </div>
 
 
 
     <div class="infos-utilisateur" id="infos-utilisateur">
-        <h3>Mes informations</h3>
-        <div class="form-grid">
+      <h3>Mes informations</h3>
+      <div class="form-grid">
 
         <div class="old-info">
-        <ul style="list-style: none; padding-left: 0;">
+          <ul style="list-style: none; padding-left: 0;">
             <li>
-            🔹 <strong>Nom :</strong> <span id="old-nom">—</span>
+              🔹 <strong>Nom :</strong> <span id="old-nom">—</span>
             </li>
             <li style="margin-top: 10px;">
-            🔹 <strong>Email :</strong> <span id="old-email">—</span><br>
-            <small style="color: #555;">
+              🔹 <strong>Email :</strong> <span id="old-email">—</span><br>
+              <small style="color: #555;">
                 – L’email est utilisé pour la connexion et ne peut pas être modifié pour des raisons de sécurité.<br>
                 – <em>Si besoin :</em> créez un nouveau compte avec une autre adresse puis supprimez l'ancien.
-            </small>
+              </small>
             </li>
             <li style="margin-top: 10px;">
-            🔹 <strong>Mot de passe :</strong> ********<br>
-            <small style="color: #555;">
+              🔹 <strong>Mot de passe :</strong> ********<br>
+              <small style="color: #555;">
                 – Le mot de passe peut être changé dans le formulaire à droite.<br>
                 – Laissez le champ vide si vous ne souhaitez pas le modifier.
-            </small>
+              </small>
             </li>
             <li style="margin-top: 10px;">
-            🔹 <strong>Téléphone :</strong> <span id="old-tel">—</span>
+              🔹 <strong>Téléphone :</strong> <span id="old-tel">—</span>
             </li>
             <li style="margin-top: 10px;">
-            🔹 <strong>Rôle :</strong> <span id="role">—</span><br>
-            <small style="color: #555;">
-                – Le rôle est défini à la création du compte et ne peut être modifié (pour devenir voiturier ou collaborateur par exemple) que par le propriétaire du parking.
-            </small>
+              🔹 <strong>Rôle :</strong> <span id="role">—</span><br>
+              <small style="color: #555;">
+                – Le rôle est défini à la création du compte et ne peut être modifié (pour devenir voiturier ou
+                collaborateur par exemple) que par le propriétaire du parking.
+              </small>
             </li>
-        </ul>
+          </ul>
         </div>
 
-            <!-- Formulaire de modification -->
-            <form id="modif-form">
-            <label>Nom :
-                <input type="text" id="modif-nom" />
-            </label>
-            <label>Nouvel email :
-                <input type="email" id="modif-email" />
-            </label>
-            <label>Téléphone :
-                <input type="tel" id="modif-tel" />
-            </label>
-            <label>Nouveau mot de passe :
-                <input type="password" id="modif-mdp" placeholder="Laisser vide pour ne pas changer" />
-            </label>
-            <button type="submit">💾 Enregistrer</button>
-            </form>
+        <!-- Formulaire de modification -->
+        <form id="modif-form">
+          <label>Nom :
+            <input type="text" id="modif-nom" />
+          </label>
+          <label>Nouvel email :
+            <input type="email" id="modif-email" />
+          </label>
+          <label>Téléphone :
+            <input type="tel" id="modif-tel" />
+          </label>
+          <label>Nouveau mot de passe :
+            <input type="password" id="modif-mdp" placeholder="Laisser vide pour ne pas changer" />
+          </label>
+          <button type="submit">💾 Enregistrer</button>
+        </form>
 
-        </div>
+      </div>
     </div>
 
 
     <div class="reservations">
       <h3>Mes Réservations</h3>
       <table>
-            <thead>
-            <tr>
-                <th>Date départ</th>
-                <th>Heure vol</th>
-                <th>Heure RDV</th>
-                <th>N° de vol</th>
-                <th>Date retour</th>
-                <th>Pack</th>
-                <th>Lieu RDV</th>
-                <th>Statut</th>
-            </tr>
-            </thead>
+        <thead>
+          <tr>
+            <th>Date départ</th>
+            <th>Heure vol</th>
+            <th>Heure RDV</th>
+            <th>N° de vol</th>
+            <th>Date retour</th>
+            <th>Pack</th>
+            <th>Lieu RDV</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
 
-            <tbody id="table-client">
-            <!-- Les données seront insérées ici -->
-            </tbody>
+        <tbody id="table-client">
+          <!-- Les données seront insérées ici -->
+        </tbody>
       </table>
     </div>
   </div>
 
-<script type="module" src="./js/client.js"></script>
+  <script type="module" src="./js/client.js"></script>
 
 </body>
+
 </html>

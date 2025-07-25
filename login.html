@@ -130,10 +130,30 @@
     button:active {
       transform: translateY(0);
     }
+
+    .btn-retour {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      background-color: var(--c-accent);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-retour:hover {
+      background-color: var(--c-accent-dark);
+    }
   </style>
 </head>
 
 <body>
+  <a href="index.html" onclick="history.back()" class="btn-retour">← Retour</a>
   <div class="auth-container">
     <div class="auth-header">
       <h1>🔐 Connexion ou création de compte</h1>

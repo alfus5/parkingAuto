@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
   <title>Réserver une place</title>
@@ -38,13 +39,20 @@
       width: fit-content;
       max-width: 100%;
       margin: 0 auto;
-      overflow-x: auto; /* ✅ Ajout ici */
+      overflow-x: auto;
+      /* ✅ Ajout ici */
     }
 
 
     @keyframes fade {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     h1 {
@@ -61,7 +69,9 @@
       margin-top: 2rem;
     }
 
-    button, input, select {
+    button,
+    input,
+    select {
       font: inherit;
       border: 1px solid #d3d7de;
       border-radius: var(--radius);
@@ -82,14 +92,18 @@
       box-shadow: var(--shadow);
     }
 
-    button:active { transform: translateY(0); }
+    button:active {
+      transform: translateY(0);
+    }
 
     .secondary {
       background: #e2e8f0;
       color: var(--c-text);
     }
 
-    .secondary:hover { background: #cbd5e1; }
+    .secondary:hover {
+      background: #cbd5e1;
+    }
 
     form {
       display: grid;
@@ -117,17 +131,21 @@
       margin-top: 1rem;
       max-width: 100%;
       overflow-x: auto;
-      table-layout: auto; /* ou fixed selon ton besoin */
+      table-layout: auto;
+      /* ou fixed selon ton besoin */
     }
 
-    th, td {
+    th,
+    td {
       padding: 0.6rem 0.7rem;
       text-align: left;
       border-bottom: 1px solid #f0f0f0;
     }
+
     td:last-child {
       white-space: nowrap;
-      width: 220px; /* ✅ tu peux l’augmenter un peu ici */
+      width: 220px;
+      /* ✅ tu peux l’augmenter un peu ici */
     }
 
 
@@ -155,8 +173,13 @@
     }
 
     @media (max-width: 768px) {
-      form, main { padding: 1rem; }
+
+      form,
+      main {
+        padding: 1rem;
+      }
     }
+
     #account-icon {
       position: fixed;
       top: 1rem;
@@ -175,18 +198,27 @@
     #account-icon img:hover {
       transform: scale(1.1);
     }
+
     tbody tr {
       animation: fadein 0.4s ease-in;
     }
 
     @keyframes fadein {
-      from { opacity: 0; transform: translateY(5px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    
-    .btn-modif-res, .btn-suppr-res {
+
+    .btn-modif-res,
+    .btn-suppr-res {
       padding: 6px 10px;
-      margin:  2px;
+      margin: 2px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
@@ -208,21 +240,29 @@
       color: #fff;
     }
 
-    .btn-modif-res:hover { background-color: #eab308; }
-    .btn-suppr-res:hover { background-color: #dc2626; }
+    .btn-modif-res:hover {
+      background-color: #eab308;
+    }
+
+    .btn-suppr-res:hover {
+      background-color: #dc2626;
+    }
 
     td:last-child {
       white-space: nowrap;
-      width: 150px; /* Ajuste si besoin */
+      width: 150px;
+      /* Ajuste si besoin */
     }
 
-    th:last-child, td:last-child {
+    th:last-child,
+    td:last-child {
       min-width: 120px;
       text-align: center;
     }
 
     .modif-mode {
-      background-color: #38bdf8 !important; /* bleu clair */
+      background-color: #38bdf8 !important;
+      /* bleu clair */
       color: white;
     }
 
@@ -239,7 +279,8 @@
     }
 
     .btn-payer {
-      background-color: #10b981; /* Vert émeraude */
+      background-color: #10b981;
+      /* Vert émeraude */
       color: white;
       padding: 6px 12px;
       font-size: 0.9rem;
@@ -250,51 +291,49 @@
     }
 
     .btn-payer:hover {
-      background-color: #059669; /* Vert plus foncé au survol */
+      background-color: #059669;
+      /* Vert plus foncé au survol */
     }
-
-
-
   </style>
 </head>
 
 <body>
   <script type="module">
-  import { auth } from './js/firebase-config.js';
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
-  import { afficherTableauReservations } from './js/demo.js';
+    import { auth } from './js/firebase-config.js';
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+    import { afficherTableauReservations } from './js/demo.js';
 
-  const params = new URLSearchParams(window.location.search);
-  const modifID = params.get("modif");
-  if (modifID) {
-    modifierReservation(modifID); // 🛠 fonction déjà définie plus bas
-  }
-
-
-  onAuthStateChanged(auth, user => {
-    if (!user) {
-      window.location.href = "login.html";
-    } else {
-      document.body.style.display = "";
-      document.getElementById('logout-btn').style.display = 'inline-block';
-      afficherTableauReservations(user.email); // ✅ Appel direct ici, une seule fois
+    const params = new URLSearchParams(window.location.search);
+    const modifID = params.get("modif");
+    if (modifID) {
+      modifierReservation(modifID); // 🛠 fonction déjà définie plus bas
     }
-  });
 
-  document.querySelectorAll("form").forEach(f => {
-    f.addEventListener("submit", (e) => {
-      if (!f.checkValidity()) {
-        e.preventDefault();
-        alert("❌ Veuillez corriger les erreurs du formulaire.");
+
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        window.location.href = "login.html";
+      } else {
+        document.body.style.display = "";
+        document.getElementById('logout-btn').style.display = 'inline-block';
+        afficherTableauReservations(user.email); // ✅ Appel direct ici, une seule fois
       }
     });
-  });
+
+    document.querySelectorAll("form").forEach(f => {
+      f.addEventListener("submit", (e) => {
+        if (!f.checkValidity()) {
+          e.preventDefault();
+          alert("❌ Veuillez corriger les erreurs du formulaire.");
+        }
+      });
+    });
   </script>
 
-  
+
   <div id="account-icon">
     <a href="client.html" id="account-icon">
-    <img src="./img/account-icon.png" alt="Espace compte" /></a> 
+      <img src="./img/account-icon.png" alt="Espace compte" /></a>
   </div>
 
 
@@ -306,11 +345,13 @@
     <form id="demo-res">
       <input name="clientNom" placeholder="Nom" required />
       <input name="clientEmail" type="email" placeholder="Email" required />
-      <input name="clientPhone" type="tel" placeholder="+33 612345678" pattern="^\+\d{1,4}\s?\d{6,14}$" title="Numéro au format international requis, ex : +33 612345678" required />
+      <input name="clientPhone" type="tel" placeholder="+33 612345678" pattern="^\+\d{1,4}\s?\d{6,14}$"
+        title="Numéro au format international requis, ex : +33 612345678" required />
       <label>📅 Date de départ : <input name="dateDepart" type="date" required /></label>
       <label>✈️ Heure du vol : <input name="heureVol" type="time" required /></label>
       <label>📅 Date de retour : <input name="dateRetour" type="date" required /></label>
-      <label>✈️ N° de vol : <input name="numeroVol" type="text" placeholder="ex : AF1234" autocomplete="off" required /></label>
+      <label>✈️ N° de vol : <input name="numeroVol" type="text" placeholder="ex : AF1234" autocomplete="off"
+          required /></label>
       <label>📍 Lieu de RDV : <input name="lieuRDV" type="text" placeholder="ex : Terminal 2E CDG" required /></label>
 
       <select name="pack">
@@ -355,6 +396,7 @@
   <!-- JS -->
   <script type="module" src="./js/demo.js"></script>
   <script type="module" src="./js/auth.js"></script>
-<!-- <script type="module" src="./js/client.js"></script> -->
+  <!-- <script type="module" src="./js/client.js"></script> -->
 </body>
+
 </html>

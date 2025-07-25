@@ -31,14 +31,11 @@ body::before {
   position: fixed;
   inset: 0;
   /* top:0; left:0; right:0; bottom:0 */
-  background: url("images/bg-homeparking.png") no-repeat center center / cover;
+  background: url("../img/bg-homeparking.png") no-repeat center center / cover;
   filter: blur(6px);
   z-index: -1;
   pointer-events: none;
 }
-
-
-
 
 main,
 .content-wrapper {
@@ -47,7 +44,6 @@ main,
   padding: 0;
   box-sizing: border-box;
 }
-
 
 /*Barre de navigation*/
 header {
@@ -92,16 +88,9 @@ nav ul li a {
 
 
 main {
-  width: 100vw;
   max-width: 100%;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
   background: url("../img/bg-homeparking.png") no-repeat center center / cover;
 }
-
-
-
 
 #present {
   text-align: justify;
@@ -172,7 +161,7 @@ button:active {
   padding: 5%;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  width: 100%;
+  width: 50%;
   box-sizing: border-box;
 }
 
@@ -182,8 +171,8 @@ button:active {
 
 .nav-footer {
   position: absolute;
-  bottom: 10px;
-  right: -30px;
+  bottom: 25px;
+  right: 250px;
 }
 
 .next-btn #next-btn {
@@ -338,6 +327,9 @@ footer {
   overflow: hidden;
   box-shadow: var(--shadow);
   flex-shrink: 0;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.5s ease-out;
 }
 
 .offre-text {
@@ -382,11 +374,11 @@ footer {
 .pack-description {
   min-width: 600px;
   max-width: 700px;
-  height: 330px;
+  height: 220px;
   background-color: var(--c-accent);
   color: white;
   border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: 1rem;
   box-shadow: var(--shadow);
   flex-shrink: 0;
   display: flex;
@@ -424,19 +416,11 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.8);
-  /* fond clair semi-transparent */
+  background: rgba(255, 255, 255, 0.8); /* fond clair semi-transparent */
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-
-}
-
-.offre {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 0.5s ease-out;
 }
 
 .offre.visible {
@@ -460,21 +444,6 @@ footer {
   /* inférieur à celui du header */
   padding: 2rem;
 }
-
-
-
-.hero-content {
-  max-width: 800px;
-  padding: 2rem;
-  animation: fadeIn 1s ease;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-
 
 .hero-title {
   font-size: 3rem;
@@ -569,7 +538,7 @@ footer {
   left: 0;
   height: 100vh;
   width: 100vw;
-  background: url("images/bg-homeparking.png") no-repeat center center / cover;
+  background: url("../img/bg-homeparking.png") no-repeat center center / cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -755,13 +724,13 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   animation: bounce 2s infinite;
 }
 
 .mascotte-guide img {
   height: 140px;
-  /* Ne pas inverser l'image si elle doit pointer à gauche */
+  border-radius: var(--radius);
 }
 
 .guide-texte {
@@ -798,34 +767,6 @@ footer {
   }
 }
 
-.illustration-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.mascotte-guide {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1.5rem;
-  animation: bounce 2s infinite;
-}
-
-.mascotte-guide img {
-  height: 140px;
-  border-radius: var(--radius);
-}
-
-.guide-texte {
-  font-weight: bold;
-  font-size: 1.1rem;
-  color: var(--c-accent);
-  margin-top: 0.5rem;
-  animation: blinkText 1.5s infinite;
-}
-
 /* Animations (déjà incluses plus haut) */
 @keyframes bounce {
 
@@ -839,23 +780,14 @@ footer {
   }
 }
 
-@keyframes blinkText {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.5;
-  }
-}
-
 .presentation-animated {
   padding: 4rem 2rem;
   background: url("../img/bg-homeparking.png") no-repeat center center / cover;
-  text-align: center;
   color: var(--c-text);
+}
+
+.presentation-animated h3 {
+  text-align: center;
 }
 
 .presentation-animated h2 {
@@ -900,6 +832,13 @@ footer {
 
 .presentation-text p:nth-child(5) {
   animation-delay: 1.5s;
+}
+
+.presentation-animated ul {
+  margin: auto;
+  text-align: center;
+  width: 30%;
+  padding-top: 35px;
 }
 
 @keyframes slideIn {
