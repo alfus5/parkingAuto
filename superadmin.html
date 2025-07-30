@@ -52,21 +52,9 @@
   <h1>👑 Tableau de bord du Superadmin</h1>
 
   <!-- 🔎 Filtres -->
-  <div style="margin-top: 20px;">
-    <input type="text" id="search-input" placeholder="🔍 Rechercher nom ou email" />
-    <select id="filter-statut">
-      <option value="">Tous statuts</option>
-      <option value="payé">Payé</option>
-      <option value="annulé">Annulé</option>
-      <option value="acompte">Acompte</option>
-    </select>
-    <select id="filter-pack">
-      <option value="">Tous packs</option>
-      <option value="Standard">Standard</option>
-      <option value="Confort">Confort</option>
-      <option value="VIP">VIP</option>
-    </select>
-  </div>
+    <div style="margin-top: 20px;">
+      <input type="text" id="global-filter" placeholder="🔍 Filtrer sur toutes les colonnes (nom, email, date, etc.)" style="width: 100%; padding: 8px;" />
+    </div>
 
 
   <!-- 🎛️ Panneau principal -->
@@ -88,26 +76,53 @@
     </table>
 
     <!-- 🔎 Filtre global -->
-    <div style="margin-top: 20px;">
-      <input type="text" id="global-filter" placeholder="🔍 Filtrer sur toutes les colonnes (nom, email, date, etc.)" style="width: 100%; padding: 8px;" />
-    </div>
-
 
     <h2>📋 Réservations</h2>
+        <div style="margin-top: 20px;">
+      <input type="text" id="search-input" placeholder="🔍 Rechercher nom ou email" />
+      <select id="filter-statut">
+        <option value="">Tous statuts</option>
+        <option value="payé">Payé</option>
+        <option value="annulé">Annulé</option>
+        <option value="acompte">Acompte</option>
+      </select>
+      <select id="filter-pack">
+        <option value="">Tous packs</option>
+        <option value="Standard">Standard</option>
+        <option value="Confort">Confort</option>
+        <option value="VIP">VIP</option>
+      </select>
+    </div>
     <table id="reservations-table">
       <thead>
         <tr>
           <th>Nom</th>
-          <td><a href="mailto:${email}">${email}</a></td>
-          <td><a href="tel:${tel}">${tel}</a></td>
+          <th>Email</th>
+          <th>Téléphone</th>
           <th>Date départ</th>
           <th>Heure du vol</th>
           <th>RDV Voiturier</th>
-          <th>Date Retour</th>
+          <th>Date retour</th>
           <th>Statut</th>
-          <th>pack</th>
+          <th>Pack</th>
           <th>Action</th>
           <th>Pris en charge par</th>
+        </tr>
+      </thead>
+
+      <tbody></tbody>
+    </table>
+
+    <h2>📋 Messages et questions des utilisateurs</h2>
+    <table id="messages-table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Message</th>
+          <th>Date</th>
+          <th>Statut</th>
+
         </tr>
       </thead>
       <tbody></tbody>
