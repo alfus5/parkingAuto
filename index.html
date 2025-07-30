@@ -20,7 +20,7 @@
         <nav>
             <ul>
                 <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="contact.html">Contact</a></li>
                 <li><a id="loginLink" href="login.html">Connexion</a></li>
             </ul>
         </nav>
@@ -28,6 +28,8 @@
 
 
     <main>
+
+
         <section id="hero">
             <div class="hero-content">
                 <h1 class="hero-title">Bienvenue sur <span class="accent">Home Parking</span></h1>
@@ -43,18 +45,39 @@
 
             <div class="form-container">
                 <form id="form-step-1" class="form-step active">
-                    <input name="clientNom" placeholder="Nom" required>
-                    <input name="clientEmail" type="email" placeholder="Email" required>
-                    <input name="clientPhone" type="tel" placeholder="Téléphone" required>
-                    <label>📅 Date de départ : <br><input name="dateDepart" type="date" required></label>
-                    <label>✈️ Heure du vol : <br><input name="heureVol" type="time" required></label>
-                    <label>📅 Date de retour : <br><input name="dateRetour" type="date" required></label>
-                    <select name="pack">
-                        <option>Standard</option>
-                        <option>Confort</option>
-                        <option>VIP</option>
-                    </select>
-                    <!--<button class="secondary" type="submit">Réserver</button>-->
+                <input name="clientNom" placeholder="Nom" required />
+                <input name="clientEmail" type="email" placeholder="Email" required />
+                <input name="clientPhone" type="tel" placeholder="tel : +33 612345678"
+                    pattern="^\+\d{1,4}\s?\d{6,14}$"
+                    title="Numéro au format international requis, ex : +33 612345678"
+                    required />
+
+                <label>📅 Date de départ :
+                    <input name="dateDepart" id="dateDepart" type="date" required />
+                </label>
+
+                <label>✈️ Heure du vol :
+                    <input name="heureVol" type="time" required />
+                </label>
+
+                <label>📅 Date de retour :
+                    <input name="dateRetour" id="dateRetour" type="date" required />
+                </label>
+
+                <label>✈️ N° de vol :
+                    <input name="numeroVol" type="text" placeholder="ex : AF1234" autocomplete="off" required />
+                </label>
+
+                <label>📍 Lieu de RDV :
+                    <input name="lieuRDV" type="text" placeholder="ex : Terminal 2E CDG" required />
+                </label>
+
+                <select name="pack">
+                    <option>Standard</option>
+                    <option>Confort</option>
+                    <option>VIP</option>
+                </select>
+
                 </form>
 
                 <form id="register-form" class="form-step">
@@ -187,47 +210,67 @@
                 <button id="btn-reserver-final" style="display: none;">🚗 Réserver maintenant</button>
             </div>
         </div>
+
     </section>
 
     <section class="presentation-animated">
         <h2>Stationnez votre voiture en toute confiance</h2>
-        <div id="pack-container">
-            <div class="pack-description" id="pack1">
-                <h3>🟢 Pack Standard – Tranquillité et Sécurité</h3>
-                <ul>
-                    <li>Stationnement sécurisé sur un terrain clôturé, surveillé 24h/24.</li>
-                    <li>Prise en charge de votre véhicule au terminal pour une expérience sans stress.</li>
-                    <li>Idéal pour un court ou long séjour avec personnel dédié pour surveillance.</li>
-                </ul>
-            </div>
-        
-            <div class="pack-description" id="pack2">
-                <h3>🟡 Pack Premium – Confort Amélioré</h3>
-                <ul>
-                    <li>Inclut un lavage intérieur ou extérieur pour un véhicule propre à la restitution.</li>
-                    <li>Stationnement prioritaire, réduisant le temps d'attente à votre arrivée.</li>
-                    <li>Traitement antibactérien léger des surfaces pour un confort supérieur.</li>
-                </ul>
-            </div>
-        
-            <div class="pack-description" id="pack3">
-                <h3>🔴 Pack VIP – Sérénité Totale & Entretien Complet</h3>
-                <ul>
-                    <li>Services du Pack Premium avec options d'entretien complet.</li>
-                    <li>Lavage intégral et check-up visuel du véhicule inclus.</li>
-                    <li>Transport chez un garagiste partenaire pour vidange et gonflage des pneus.</li>
-                    <li>Assistance bagages et accueil prioritaire à l’aéroport.</li>
-                </ul>
-            </div>
+        <div class="presentation-text">
+            <p class="animated-block">Profitez d’un <strong>service voiturier sécurisé</strong> pensé pour tous vos
+                déplacements.</p>
+            <p class="animated-block">Choisissez parmi nos <strong>packs personnalisés</strong> : simplicité, confort ou
+                prise en charge complète.</p>
+
+                <div class="offres-scroll">
+                    <div id="pack-container">
+                        <div class="pack-description" id="pack1">
+                            <h3>🟢 Pack Standard – Tranquillité et Sécurité</h3>
+                            <p>Le Pack Standard offre un stationnement sécurisé sur un terrain clôturé, surveillé 24h/24. Les
+                                clients bénéficient d'une prise en charge de leur véhicule au terminal, garantissant une
+                                expérience
+                                sans stress. Ce pack est idéal pour ceux qui recherchent une solution simple et efficace, que ce
+                                soit pour un court ou un long séjour. La présence d'un personnel dédié assure une surveillance
+                                constante des allées et venues.</p>
+                        </div>
+
+                        <div class="pack-description" id="pack2">
+                            <h3>🟡 Pack confort – Confort Amélioré</h3>
+                            <p>Le Pack Premium va au-delà des services du Pack Standard en incluant un lavage intérieur ou
+                                extérieur, offrant ainsi un véhicule propre à la restitution. Les clients profitent d'un
+                                stationnement prioritaire, réduisant le temps d'attente à leur arrivée. Ce pack est parfait pour
+                                ceux qui souhaitent un niveau de confort supérieur, tout en bénéficiant d'un traitement
+                                antibactérien léger des surfaces. Idéal pour les séjours de 1 à 2 semaines, il assure une
+                                expérience
+                                agréable et soignée.</p>
+                        </div>
+
+                        <div class="pack-description" id="pack3">
+                            <h3>🔴 Pack premium – Sérénité Totale & Entretien Complet</h3>
+                            <p>Le Pack VIP est la solution ultime pour les clients exigeants, offrant tous les services du Pack
+                                Premium avec des options d'entretien complet. En plus d'un lavage intégral, ce pack inclut un
+                                check-up visuel du véhicule et un transport chez un garagiste partenaire pour des services comme
+                                la
+                                vidange et le gonflage des pneus. Les clients bénéficient également d'une assistance bagages et
+                                d'un
+                                accueil prioritaire à l’aéroport, garantissant une expérience sans souci. Parfait pour les
+                                séjours
+                                longue durée, il assure une tranquillité d'esprit totale.</p>
+                        </div>
+                    </div>
+                </div>
+
+            <p class="animated-block">Gagnez du temps, évitez le stress, et vivez une <strong>expérience
+                    premium</strong>.</p>
+            <p class="animated-block">Nos équipes sont disponibles <strong>24h/24</strong> pour assurer la
+                <strong>sécurité</strong> de votre véhicule.
+            </p>
+            <p class="animated-block">Confiez votre voiture à des <strong>experts passionnés</strong> et partez l’esprit
+                tranquille.</p>
         </div>
-        
-        <ul>
-            <li class="animated-block">Gagnez du temps, évitez le stress, et vivez une <strong>expérience premium</strong>.</li>
-            <li class="animated-block">Nos équipes disponibles <strong>24h/24</strong> pour assurer la <strong>sécurité</strong> de votre véhicule.</li>
-            <li class="animated-block">Confiez votre voiture à des <strong>experts passionnés</strong> et partez l’esprit tranquille.</li>
-        </ul>
-        
     </section>
+
+
+
 
     <footer>
         <div class="footer-container">

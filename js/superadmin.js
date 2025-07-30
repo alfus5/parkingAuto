@@ -2,6 +2,8 @@ import { guard } from "./authGuard.js";
 await guard("superadmin");
 
 // … code superadmin.js …
+import {  addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
 
 import { auth, db } from './firebase-config.js';
 import {
@@ -43,13 +45,18 @@ onAuthStateChanged(auth, async (user) => {
   document.getElementById("search-input")?.addEventListener("input", chargerReservations);
   document.getElementById("filter-statut")?.addEventListener("change", chargerReservations);
   document.getElementById("filter-pack")?.addEventListener("change", chargerReservations);
-  document.getElementById("global-filter")?.addEventListener("input", chargerReservations);
+  document.getElementById("global-filter")?.addEventListener("input", () => {
+    chargerUtilisateurs();
+    chargerReservations();
+  });
 
 });
 
 // 📂 Liste des utilisateurs
 async function chargerUtilisateurs() {
   const usersSnap = await getDocs(collection(db, "users"));
+  const globalQuery = document.getElementById("global-filter")?.value?.toLowerCase() || "";
+
   const table = document.querySelector("#users-table tbody");
   table.innerHTML = "";
 
@@ -57,6 +64,16 @@ async function chargerUtilisateurs() {
     const user = docu.data();
     const uid = docu.id;
     if (user.role === "superadmin") return;
+    if (
+      globalQuery &&
+      !(
+        (user.nom ?? "").toLowerCase().includes(globalQuery) ||
+        (user.email ?? "").toLowerCase().includes(globalQuery) ||
+        (user.telephone ?? "").toLowerCase().includes(globalQuery) ||
+        (user.role ?? "").toLowerCase().includes(globalQuery)
+      )
+    ) return;
+
 
     const messageStatut = user.message
       ? (user.messageVu ? "✔️ Vu" : "📨 Non lu")
@@ -247,3 +264,37 @@ window.supprimerUtilisateur = async (uid, nom) => {
     alert("❌ Erreur : " + err.message);
   }
 };
+
+
+
+// 🔧 superadmin.js – affichage des messages
+
+async function chargerMessages() {
+  const snap = await getDocs(collection(db, "messages"));
+  const tbody = document.querySelector("#messages-table tbody");
+  tbody.innerHTML = "";
+
+  snap.forEach(docu => {
+    const d = docu.data();
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${d.nom}</td>
+      <td><a href="mailto:${d.email}">${d.email}</a></td>
+      <td>${d.message}</td>
+      <td>${d.createdAt?.toDate().toLocaleString("fr-FR") ?? "—"}</td>
+      <td>
+        ${d.lu ? '✔️ Lu' : '📨 Non lu'} 
+        <button onclick="toggleLu('${docu.id}', ${d.lu})">Marquer ${d.lu ? 'non lu' : 'lu'}</button>
+      </td>
+          `;
+    tbody.appendChild(row);
+  });
+}
+window.toggleLu = async (id, actuel) => {
+  const ref = doc(db, "messages", id);
+  await updateDoc(ref, { lu: !actuel });
+  chargerMessages();
+};
+
+// Appeler cette fonction après chargement superadmin
+chargerMessages();
