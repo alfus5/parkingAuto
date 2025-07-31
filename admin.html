@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Espace Admin</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-
-        :root {
-    --c-accent: #f47b5f;
-    --c-accent-dark: #de5e42;
-    --c-bg: #fff9f3;
-    --c-text: #334155;
-    --c-prune: #922c40;
-    --radius: 10px;
-    --shadow: 0 4px 12px rgb(0 0 0 / 0.08);
-    --btn-color: #475569;     /* Slate 600 */
-    --btn-hover: #334155;     /* Slate 700 */
+    :root {
+      --c-accent: #f47b5f;
+      --c-accent-dark: #de5e42;
+      --c-bg: #fff9f3;
+      --c-text: #334155;
+      --c-prune: #922c40;
+      --radius: 10px;
+      --shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+      --btn-color: #475569;
+      /* Slate 600 */
+      --btn-hover: #334155;
+      /* Slate 700 */
 
     }
 
@@ -65,45 +68,49 @@
     }
 
     .actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
     }
 
     .actions button {
-    padding: 0.5rem 1.2rem;
-    border-radius: var(--radius);
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    font-weight: bold;
+      padding: 0.5rem 1.2rem;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-weight: bold;
     }
 
-    
+
     .btn-modif {
-    background-color: var(--c-accent);
-    color: white;
+      background-color: var(--c-accent);
+      color: white;
     }
 
     .btn-modif:hover {
-    background-color: var(--c-accent-dark);
+      background-color: var(--c-accent-dark);
     }
 
     .btn-deconnexion {
-    background-color: var(--btn-color);
-    color: white;
+      background-color: var(--btn-color);
+      color: white;
     }
+
     .btn-deconnexion:hover {
-    background-color: var(--btn-hover);
+      background-color: var(--btn-hover);
     }
 
     .btn-supprimer {
-    background-color: #dc3545; /* rouge vif */
-    color: white;
+      background-color: #dc3545;
+      /* rouge vif */
+      color: white;
     }
+
     .btn-supprimer:hover {
-    background-color: #b02a37; /* rouge foncé au survol */
+      background-color: #b02a37;
+      /* rouge foncé au survol */
     }
 
 
@@ -121,7 +128,7 @@
       padding: 1rem;
       border-radius: 10px;
       margin-bottom: 2rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
     .form-grid {
@@ -153,7 +160,8 @@
       border-collapse: collapse;
     }
 
-    th, td {
+    th,
+    td {
       padding: 0.6rem;
       border: 1px solid #ddd;
     }
@@ -176,9 +184,74 @@
       background-color: #f9f9f9;
     }
 
+    @media (max-width: 768px) {
+  .admin-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
 
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .profile-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .profile-header img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .btn-deconnexion {
+    display: none;
+  }
+
+  .form-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input {
+    font-size: 1rem;
+  }
+
+  #account-icon {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .btn-modif,
+  .btn-supprimer {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+
+  /* Scroll horizontal pour le tableau */
+  .reservations {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 1000px; /* largeur minimale forcée */
+    font-size: 0.85rem;
+  }
+
+  th, td {
+    white-space: nowrap;
+  }
+}
   </style>
 </head>
+
 <body>
 
   <!-- Icône Espace Compte -->
@@ -195,9 +268,9 @@
     </div>
 
     <div class="actions">
-    <button class="btn-modif" onclick="toggleModif()">✏️ Modifier mes infos</button>
-    <button class="btn-supprimer" onclick="deleteAccount()">🗑 Supprimer mon compte</button>
-    <button class="btn-deconnexion" onclick="logout()">🔓 Se déconnecter</button>
+      <button class="btn-modif" onclick="toggleModif()">✏️ Modifier mes infos</button>
+      <button class="btn-supprimer" onclick="deleteAccount()">🗑 Supprimer mon compte</button>
+      <button class="btn-deconnexion" onclick="logout()">🔓 Se déconnecter</button>
     </div>
 
     <!-- Bloc infos utilisateur -->
@@ -205,43 +278,44 @@
       <h3>Mes informations</h3>
       <div class="form-grid">
         <div class="old-info">
-        <ul style="list-style: none; padding-left: 0;">
+          <ul style="list-style: none; padding-left: 0;">
             <li>
-            🔹 <strong>Nom :</strong> <span id="old-nom">—</span>
+              🔹 <strong>Nom :</strong> <span id="old-nom">—</span>
             </li>
             <li style="margin-top: 10px;">
-            🔹 <strong>Email :</strong> <span id="old-email">—</span><br>
-            <small style="color: #555;">
+              🔹 <strong>Email :</strong> <span id="old-email">—</span><br>
+              <small style="color: #555;">
                 – L’email est utilisé pour la connexion et ne peut pas être modifié pour des raisons de sécurité.<br>
                 – <em>Si besoin :</em> créez un nouveau compte avec une autre adresse puis supprimez l'ancien.
-            </small>
+              </small>
             </li>
             <li style="margin-top: 10px;">
-            🔹 <strong>Mot de passe :</strong> ********<br>
-            <small style="color: #555;">
+              🔹 <strong>Mot de passe :</strong> ********<br>
+              <small style="color: #555;">
                 – Le mot de passe peut être changé dans le formulaire à droite.<br>
                 – Laissez le champ vide si vous ne souhaitez pas le modifier.
-            </small>
+              </small>
             </li>
             <li style="margin-top: 10px;">
-            🔹 <strong>Téléphone :</strong> <span id="old-tel">—</span>
+              🔹 <strong>Téléphone :</strong> <span id="old-tel">—</span>
             </li>
             <li style="margin-top: 10px;">
-            🔹 <strong>Rôle :</strong> <span id="role">—</span><br>
-            <small style="color: #555;">
-                – Le rôle est défini à la création du compte et ne peut être modifié (pour devenir client par exemple) que par le propriétaire du parking.
-            </small>
+              🔹 <strong>Rôle :</strong> <span id="role">—</span><br>
+              <small style="color: #555;">
+                – Le rôle est défini à la création du compte et ne peut être modifié (pour devenir client par exemple)
+                que par le propriétaire du parking.
+              </small>
             </li>
-        </ul>
+          </ul>
         </div>
 
         <form id="modif-form">
           <label>Nom :
             <input type="text" id="modif-nom" />
           </label>
-            <label>Email :
+          <label>Email :
             <input type="email" id="modif-email" disabled />
-            </label>
+          </label>
 
           <label>Téléphone :
             <input type="tel" id="modif-tel" />
@@ -276,4 +350,5 @@
 
   <script type="module" src="./js/admin.js"></script>
 </body>
+
 </html>

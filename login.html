@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Connexion – Parking</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
@@ -79,26 +80,6 @@
       object-fit: contain;
     }
 
-    /* Responsive : passe en colonne sous 768px */
-    @media (max-width: 768px) {
-      .auth-forms {
-        flex-direction: column;
-        align-items: center;
-        flex-wrap: wrap;
-        /* permet retour à la ligne */
-      }
-
-      .login-mascotte {
-        order: 2;
-        margin: 1rem 0;
-        height: auto;
-        max-height: 160px;
-        width: 80%;
-        /* adapte la largeur */
-      }
-    }
-
-
     .auth-forms h2 {
       color: var(--c-prune);
       margin-bottom: .5rem;
@@ -148,6 +129,93 @@
 
     .btn-retour:hover {
       background-color: var(--c-accent-dark);
+    }
+
+    /* Responsive : passe en colonne sous 768px */
+    @media screen and (max-width: 768px) {
+
+      /* Forcer la taille du bouton retour */
+      .btn-retour {
+        position: relative;
+        top: 16px;
+        left: 16px;
+        font-size: 0.8rem !important;
+        padding: 1rem 1rem !important;
+        display: inline-block;
+      }
+
+      .auth-container {
+        padding: .5em;
+      }
+
+      /* Formulaires empilés, pleine largeur */
+      .auth-forms {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 1.5rem !important;
+      }
+
+      .auth-forms form {
+        width: 80% !important;
+        max-width: none !important;
+        margin: 0 auto !important;
+      }
+
+      .auth-header {
+        margin-bottom: .5em;
+      }
+
+      .auth-header h1 {
+        font-size: 5em;
+        color: var(--c-accent);
+      }
+
+      .auth-header p {
+        font-size: 1em;
+        margin-top: 0.5rem;
+      }
+
+      .auth-forms form {
+        min-width: auto;
+        /* permet rétrécir en mobile */
+        width: 100%;
+        /* prend toute la largeur disponible */
+        max-width: 400px;
+        /* limite largeur max */
+        margin: 0 auto;
+        /* centre horizontal */
+        padding: 1.5rem 1rem;
+        /* padding plus léger */
+        min-height: auto;
+        /* auto hauteur selon contenu */
+      }
+
+      /* Cacher la mascotte */
+      .login-mascotte {
+        display: none !important;
+      }
+
+      /* Ajuster taille des titres et inputs */
+      .auth-header h1 {
+        font-size: clamp(1.4rem, 5vw, 2rem);
+        padding: 0 1rem;
+      }
+
+      .auth-header p {
+        font-size: 0.9rem;
+        padding: 0 1rem;
+      }
+
+      input,
+      button {
+        font-size: 1rem;
+        padding: 0.5rem 0.7rem;
+        min-height: 2%;
+      }
+
+      button {
+        padding: 0.7rem;
+      }
     }
   </style>
 </head>

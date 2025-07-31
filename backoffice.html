@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tableau de bord Parking</title>
   <style>
     #admin-panel {
       display: none;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
     }
-    th, td {
+
+    th,
+    td {
       border: 1px solid #aaa;
       padding: 6px;
       text-align: left;
     }
+
     h2 {
       margin-top: 30px;
       color: #333;
@@ -34,21 +40,98 @@
       cursor: pointer;
     }
 
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+        font-size: 0.95rem;
+      }
+
+      #account-icon {
+        top: 10px;
+        right: 10px;
+      }
+
+      #account-icon img {
+        width: 28px;
+        height: 28px;
+      }
+
+      #logout-btn {
+        display: none;
+        /* Masque le bouton de déconnexion sur mobile */
+      }
+
+      #admin-panel {
+        margin-top: 60px;
+      }
+
+      /* Styles pour les <details> */
+      details {
+        margin-bottom: 1.5rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background: #f9f9f9;
+        padding: 0.5rem;
+      }
+
+      summary {
+        font-weight: bold;
+        cursor: pointer;
+        padding: 0.4rem;
+      }
+
+      /* Tables scrollables horizontalement */
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        width: 100%;
+        margin-top: 0.5rem;
+      }
+
+      th,
+      td {
+        font-size: 0.85rem;
+        padding: 4px;
+      }
+
+      /* Input & Select adaptables */
+      input[type="text"],
+      select {
+        width: 100%;
+        margin: 0.4rem 0;
+        padding: 0.5rem;
+        font-size: 1rem;
+      }
+
+      #export-csv {
+        width: 100%;
+        margin-top: 1rem;
+        font-size: 1rem;
+        padding: 0.6rem;
+      }
+
+      /* Message admin responsive */
+      #admin-message {
+        font-size: 0.95rem;
+      }
+    }
   </style>
   <link rel="stylesheet" href="styles.css">
 
 </head>
+
 <body>
   <script type="module">
     import { auth } from './js/firebase-config.js'; // ✅ le bon chemin
     import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
     onAuthStateChanged(auth, user => {
-        if (!user) {
+      if (!user) {
         window.location.href = "login.html";
-        } else {
+      } else {
         document.body.style.display = "";
-        }
+      }
     });
   </script>
 
@@ -80,7 +163,7 @@
     </div>
 
     <!-- 🔎 Filtres -->
-     <div class="mt-2"></div>
+    <div class="mt-2"></div>
     <div style="margin-top: 20px;">
       <input type="text" id="search-input" placeholder="🔍 Rechercher nom ou email" />
       <select id="filter-statut">
@@ -101,75 +184,82 @@
     <button class="secondary" id="export-csv">📥 Exporter mes réservations</button>
 
     <!-- 📋 Mes réservations -->
-    <h2>📋 Mes réservations</h2>
-    <table id="table-reservations">
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Email</th>
-          <th>Téléphone</th>
-          <th>Date départ</th>
-          <th>Heure du vol</th>
-          <th>RDV Voiturier</th>
-          <th>Numéro vol</th>
-          <th>Lieu RDV</th>
-          <th>Date Retour</th>
-          <th>Statut</th>
-          <th>Pack</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <details open>
+      <summary>📋 Mes réservations</summary>
+      <table id="table-reservations">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Date départ</th>
+            <th>Heure du vol</th>
+            <th>RDV Voiturier</th>
+            <th>Numéro vol</th>
+            <th>Lieu RDV</th>
+            <th>Date Retour</th>
+            <th>Statut</th>
+            <th>Pack</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </details>
 
 
     <!-- 🚗 Mes prises en charge -->
-    <h2>🚗 Mes prises en charge</h2>
-    <table id="table-my">
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Email</th>
-          <th>Téléphone</th>
-          <th>Date départ</th>
-          <th>Heure du vol</th>
-          <th>RDV Voiturier</th>
-          <th>Numéro vol</th>
-          <th>Lieu RDV</th>
-          <th>Date Retour</th>
-          <th>Statut</th>
-          <th>Pack</th>
-          <th>Qui</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    
+    <details>
+      <summary>🚗 Mes prises en charge</summary>
+      <table id="table-my">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Date départ</th>
+            <th>Heure du vol</th>
+            <th>RDV Voiturier</th>
+            <th>Numéro vol</th>
+            <th>Lieu RDV</th>
+            <th>Date Retour</th>
+            <th>Statut</th>
+            <th>Pack</th>
+            <th>Qui</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </details>
+
     <!-- 🆕 Réservations à prendre -->
-    <h2>🆕 À prendre en charge</h2>
-    <table id="table-free">
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Email</th>
-          <th>Téléphone</th>
-          <th>Date départ</th>
-          <th>Heure du vol</th>
-          <th>RDV Voiturier</th>
-          <th>Numéro vol</th>
-          <th>Lieu RDV</th>
-          <th>Date Retour</th>
-          <th>Statut</th>
-          <th>Pack</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <details>
+      <summary>🆕 À prendre en charge</summary>
+      <table id="table-free">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Date départ</th>
+            <th>Heure du vol</th>
+            <th>RDV Voiturier</th>
+            <th>Numéro vol</th>
+            <th>Lieu RDV</th>
+            <th>Date Retour</th>
+            <th>Statut</th>
+            <th>Pack</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </details>
 
 
     <!-- 📩 Message du boss -->
-    <div id="admin-message" style="display:none; background:#fff3cd; padding:10px; margin:20px 0; border-left:5px solid orange;">
+    <div id="admin-message"
+      style="display:none; background:#fff3cd; padding:10px; margin:20px 0; border-left:5px solid orange;">
       <p><strong>📢 Message du boss :</strong> <span id="message-content"></span></p>
       <button class="secondary" id="dismiss-msg-btn">✅ Marquer comme lu</button>
     </div>
@@ -177,9 +267,10 @@
   </div>
 
   <!-- 🔗 Scripts -->
-    <script type="module" src="./js/auth.js"></script>
-    <script type="module" src="./js/dashboard.js"></script>
+  <script type="module" src="./js/auth.js"></script>
+  <script type="module" src="./js/dashboard.js"></script>
 
 
 </body>
+
 </html>
