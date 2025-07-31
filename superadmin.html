@@ -1,15 +1,40 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Superadmin – Contrôle total</title>
   <style>
-    body { font-family: Arial; padding: 20px; }
-    h1 { color: darkred; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #aaa; padding: 8px; text-align: left; }
-    th { background: #f0f0f0; }
-    #superadmin-panel { display: none; }
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+
+    h1 {
+      color: darkred;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #aaa;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background: #f0f0f0;
+    }
+
+    #superadmin-panel {
+      display: none;
+    }
 
     #account-icon {
       position: absolute;
@@ -22,24 +47,24 @@
       height: 32px;
       cursor: pointer;
     }
-
   </style>
   <link rel="stylesheet" href="styles.css">
 
 </head>
-<body>
-    <script type="module">
-        import { auth } from './js/firebase-config.js';
-        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
-        onAuthStateChanged(auth, user => {
-            if (!user) {
-            window.location.href = "login.html";
-            } else {
-            document.body.style.display = "";
-            }
-        });
-    </script>
+<body>
+  <script type="module">
+    import { auth } from './js/firebase-config.js';
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        window.location.href = "login.html";
+      } else {
+        document.body.style.display = "";
+      }
+    });
+  </script>
 
   <button class="secondary" id="logout-btn" style="display: none;">🔓 Se déconnecter</button>
   <div id="account-icon">
@@ -52,33 +77,36 @@
   <h1>👑 Tableau de bord du Superadmin</h1>
 
   <!-- 🔎 Filtres -->
-    <div style="margin-top: 20px;">
-      <input type="text" id="global-filter" placeholder="🔍 Filtrer sur toutes les colonnes (nom, email, date, etc.)" style="width: 100%; padding: 8px;" />
-    </div>
+  <div style="margin-top: 20px;">
+    <input type="text" id="global-filter" placeholder="🔍 Filtrer sur toutes les colonnes (nom, email, date, etc.)"
+      style="width: 100%; padding: 8px;" />
+  </div>
 
 
   <!-- 🎛️ Panneau principal -->
   <div id="superadmin-panel">
 
-    <h2>📂 Utilisateurs enregistrés</h2>
-    <table id="users-table" border="1" style="border-collapse: collapse; width: 100%;">
+    <details>
+      <summary>📂 Utilisateurs enregistrés</summary>
+      <table id="users-table" border="1" style="border-collapse: collapse; width: 100%;">
         <thead>
-            <tr>
+          <tr>
             <th>Nom</th>
             <th>Email</th>
             <th>Téléphone</th> <!-- ✅ Colonne téléphone ajoutée -->
             <th>Rôle</th>
             <th>Message</th>
             <th>Actions</th>
-            </tr>
+          </tr>
         </thead>
         <tbody></tbody>
-    </table>
+      </table>
+    </details>
 
     <!-- 🔎 Filtre global -->
 
     <h2>📋 Réservations</h2>
-        <div style="margin-top: 20px;">
+    <div style="margin-top: 20px;">
       <input type="text" id="search-input" placeholder="🔍 Rechercher nom ou email" />
       <select id="filter-statut">
         <option value="">Tous statuts</option>
@@ -93,27 +121,32 @@
         <option value="VIP">VIP</option>
       </select>
     </div>
-    <table id="reservations-table">
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Email</th>
-          <th>Téléphone</th>
-          <th>Date départ</th>
-          <th>Heure du vol</th>
-          <th>RDV Voiturier</th>
-          <th>Date retour</th>
-          <th>Statut</th>
-          <th>Pack</th>
-          <th>Action</th>
-          <th>Pris en charge par</th>
-        </tr>
-      </thead>
+    <details>
+      <summary> Les réservations</summary>
+      <table id="reservations-table">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Date départ</th>
+            <th>Heure du vol</th>
+            <th>RDV Voiturier</th>
+            <th>Date retour</th>
+            <th>Statut</th>
+            <th>Pack</th>
+            <th>Action</th>
+            <th>Pris en charge par</th>
+          </tr>
+        </thead>
 
-      <tbody></tbody>
-    </table>
+        <tbody></tbody>
+      </table>
+    </details>
 
-    <h2>📋 Messages et questions des utilisateurs</h2>
+
+    <details>
+      <summary>📋 Messages et questions des utilisateurs</summary>
     <table id="messages-table">
       <thead>
         <tr>
@@ -127,12 +160,15 @@
       </thead>
       <tbody></tbody>
     </table>
+    </details>
 
   </div>
   <div class=".stats-box" id="stats" style="margin: 1rem 0;">
     <p><strong>Total :</strong> <span id="total-count">–</span> réservations</p>
-    <p><strong>Payées :</strong> <span id="paid-count">–</span> | <strong>Annulées :</strong> <span id="cancel-count">–</span> | <strong>Acompte :</strong> <span id="acompte-count">–</span></p>
-    <p><strong>Pack Standard :</strong> <span id="pack-standard">–</span> | <strong>Confort :</strong> <span id="pack-confort">–</span> | <strong>VIP :</strong> <span id="pack-vip">–</span></p>
+    <p><strong>Payées :</strong> <span id="paid-count">–</span> | <strong>Annulées :</strong> <span
+        id="cancel-count">–</span> | <strong>Acompte :</strong> <span id="acompte-count">–</span></p>
+    <p><strong>Pack Standard :</strong> <span id="pack-standard">–</span> | <strong>Confort :</strong> <span
+        id="pack-confort">–</span> | <strong>VIP :</strong> <span id="pack-vip">–</span></p>
   </div>
 
 
@@ -142,4 +178,5 @@
   <script type="module" src="./js/auth.js"></script>
 
 </body>
+
 </html>

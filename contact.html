@@ -6,6 +6,156 @@
   <title>Contact – Home Park</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="img/favicon.ico" />
+  <style>
+    body {
+      margin: 0;
+      background-color: var(--c-bg);
+      font-family: Arial, sans-serif;
+      color: var(--c-text);
+    }
+
+    header {
+      background: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #222;
+      font-weight: bold;
+    }
+
+    nav a.active {
+      color: var(--c-accent);
+    }
+
+    .contact-section {
+      max-width: 1000px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .contact-section h2 {
+      color: var(--c-prune);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .contact-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-contact {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .contact-form {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      min-width: 250px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 0.8rem;
+      border-radius: var(--radius);
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .contact-form button {
+      padding: 0.8rem;
+      border: none;
+      background-color: var(--c-accent);
+      color: white;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-weight: bold;
+    }
+
+    .contact-form button:hover {
+      background-color: var(--c-accent-dark);
+    }
+
+    footer {
+      background: #222;
+      margin-top: 4rem;
+      padding: 2rem;
+      color: white;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-contact,
+    .footer-legal {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .footer-legal ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-legal a {
+      text-decoration: none;
+      color: white;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .contact-content {
+        flex-direction: column;
+      }
+
+      .contact-section {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+
+      .footer-container {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -26,11 +176,12 @@
     <section class="contact-section">
       <h2>Contactez-nous</h2>
       <div class="contact-content">
-        <div class="contact-info">
-          <p>📍 Adresse : 123 Rue du Parking, 75000 Paris</p>
-          <p>📞 Téléphone : <a href="tel:+33123456789">+33 1 23 45 67 89</a></p>
-          <p>✉️ Email : <a href="mailto:contact@homepark.fr">contact@homepark.fr</a></p>
-        </div>
+        <div class="footer-contact">
+          <h3>Contactez-nous</h3>
+          <p>📍 Adresse : 5 Rue du manoir, 95380 - Épiais-lès-Louvres </p>
+          <p>📞 Assistance 24/7 : <a href="tel:+33123456789" style="color: #222;">+33 7 44 94 52 56</a></p>
+          <p>📩 Adresse mail : <a href="mailto:homeparkcdg@gmail.com" style="color: #222;">homeparkcdg@gmail.com</a></p>
+      </div>
         <form class="contact-form" id="contact-form">
         <input type="text" name="nom" placeholder="Votre nom" required />
         <input type="email" name="email" placeholder="Votre email" required />
