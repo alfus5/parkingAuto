@@ -67,7 +67,13 @@ function afficherTableauReservations(email) {
 
     for (const docSnap of snap.docs) {
       const r = docSnap.data();
-
+      const id = docSnap.id;
+      const statut = r.statut?.toLowerCase() ?? "";
+      const d1 = r.dateDepart?.toDate?.();
+      const d2 = r.dateRetour?.toDate?.();
+      const jours = d1 && d2 ? Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)) : 1;
+      const prix = calculerPrix(r.pack, jours);
+    
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${formatDate(r.dateDepart)}</td>
@@ -78,53 +84,53 @@ function afficherTableauReservations(email) {
         <td>${r.pack}</td>
         <td>${r.lieuRDV ?? "CDG"}</td>
         <td>
-          ${r.statut?.toLowerCase() === "payé"
-            ? "✅ Payé"
-            : (() => {
-              const d1 = r.dateDepart?.toDate?.();
-              const d2 = r.dateRetour?.toDate?.();
-              const jours = d1 && d2 ? Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)) : 1;
-              const prix = calculerPrix(r.pack, jours);
-              return `
-                  <div class="action-buttons">
-                  <button class="btn-payer" onclick="payerReservation('${docSnap.id}', ${prix})">
-                    💳 Payer – ${prix.toFixed(2)} €
-                  </button> </td>
-                <td>
-                  <button class="btn-modif-res" data-id="${docSnap.id}">✏️Modifier</button>
-                  <button class="btn-suppr-res" data-id="${docSnap.id}">🗑️Supprimer</button>
-                </td>
-              </div>
-        `;
-          })()
-        }
-</td>
-
+          ${
+            statut === "payé"
+              ? "✅ Payé"
+              : `<button class="btn-payer" onclick="payerReservation('${docSnap.id}', ${prix})">
+          💳 Payer – ${prix.toFixed(2)} € </button>`
+          }
+        </td>
+        <td>
+          ${
+            statut !== "payé"
+              ? `
+              <button class="btn-modif-res" data-id="${id}">✏️Modifier</button>
+              <button class="btn-suppr-res" data-id="${id}">🗑️Supprimer</button>
+              `
+              : ""
+          }
+        </td>
       `;
-
+    
       tbody.appendChild(tr);
-
-      // Ajout des écouteurs sur les boutons
+    
+      // ✅ Ajout des écouteurs
+      const btnPayer = tr.querySelector(".btn-payer");
+      btnPayer?.addEventListener("click", () => {
+        const acompte = prix * 0.5;
+        payerAcompte(id, acompte);
+      });
+    
       const btnSupprimer = tr.querySelector(".btn-suppr-res");
+      btnSupprimer?.addEventListener("click", () => {
+        supprimerReservation(id);
+      });
+    
       const btnModifier = tr.querySelector(".btn-modif-res");
-
-      btnSupprimer.addEventListener("click", () => {
-        supprimerReservation(docSnap.id); // ✅ fonction déjà définie plus bas
+      btnModifier?.addEventListener("click", () => {
+        modifierReservation(id);
       });
-
-      btnModifier.addEventListener("click", () => {
-        modifierReservation(docSnap.id); // ✅ fonction déjà définie plus bas
-      });
-
-      // Bloc admin assigné
+    
+      // ✅ Bloc admin inchangé
       if (r.assignedTo) {
         try {
           const adminRef = doc(db, "users", r.assignedTo);
           const adminSnap = await getDoc(adminRef);
-
+    
           if (adminSnap.exists()) {
             const admin = adminSnap.data();
-
+    
             const trAdmin = document.createElement("tr");
             trAdmin.className = "encart-admin";
             trAdmin.innerHTML = `
@@ -155,6 +161,7 @@ function afficherTableauReservations(email) {
         tbody.appendChild(trAttente);
       }
     }
+    
   });
 }
 
@@ -230,29 +237,41 @@ window.supprimerReservation = async function (id) {
 document.getElementById("demo-res").addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = e.target;
+  const dateDep = new Date(form.dateDepart.value);
+  const dateRet = new Date(form.dateRetour.value);
+  const jours = Math.max(1, Math.ceil((dateRet - dateDep) / (1000 * 60 * 60 * 24)));
+  const pack = form.pack.value;
+  const prix = calculerPrix(pack, jours);
+  const acompte = Math.round(prix * 0.5 * 100) / 100;
 
   const data = {
     clientNom: form.clientNom.value,
     clientEmail: form.clientEmail.value,
     clientPhone: form.clientPhone.value,
-    dateDepart: new Date(form.dateDepart.value),
+    dateDepart: dateDep,
     heureVol: form.heureVol.value,
-    dateRetour: new Date(form.dateRetour.value),
+    dateRetour: dateRet,
     numeroVol: form.numeroVol.value,
     lieuRDV: form.lieuRDV.value,
-    pack: form.pack.value,
+    pack,
+    prix,
+    acompte,
     statut: "en attente"
   };
 
   try {
+    let reservationId;
+
     if (idEnCoursDeModification) {
       // 🔁 Mise à jour
       await updateDoc(doc(db, "reservations", idEnCoursDeModification), data);
+      reservationId = idEnCoursDeModification;
       alert("✅ Réservation modifiée.");
       idEnCoursDeModification = null;
     } else {
       // 🆕 Nouvelle réservation
-      await addDoc(collection(db, "reservations"), data);
+      const docRef = await addDoc(collection(db, "reservations"), data);
+      reservationId = docRef.id;
       alert("✅ Réservation enregistrée.");
     }
 
@@ -269,11 +288,15 @@ document.getElementById("demo-res").addEventListener("submit", async (e) => {
     bouton.textContent = "Réserver";
     bouton.classList.remove("modif-mode");
 
+    // ✅ Affiche la popup de paiement de l'acompte
+    payerAcompte(reservationId, acompte);
+
   } catch (err) {
     console.error(err);
     alert("❌ Erreur lors de l'enregistrement.");
   }
 });
+
 
 const annulerBtn = document.getElementById("annuler-modif");
 annulerBtn.addEventListener("click", () => {
@@ -288,3 +311,32 @@ annulerBtn.addEventListener("click", () => {
   bouton.classList.remove("modif-mode");
 });
 
+window.payerAcompte = function (idReservation, acompte) {
+  const popup = document.getElementById("popup-acompte");
+  const montantSpan = document.getElementById("montant-acompte");
+  const btnPayer = document.getElementById("btn-payer-acompte");
+  const btnFermer = document.getElementById("btn-fermer-popup");
+
+  if (!popup || !montantSpan || !btnPayer || !btnFermer) return;
+
+  popup.classList.remove("hidden");
+  montantSpan.textContent = `${acompte.toFixed(2)} €`;
+
+  // Nettoie ancien listener
+  const newBtnPayer = btnPayer.cloneNode(true);
+  btnPayer.parentNode.replaceChild(newBtnPayer, btnPayer);
+
+  // Fermer popup
+  btnFermer.onclick = () => popup.classList.add("hidden");
+
+  // Nouveau listener → Redirection vers payement.html
+  newBtnPayer.addEventListener("click", () => {
+    const url = `paiement.html?montant=${encodeURIComponent(acompte)}&id=${encodeURIComponent(idReservation)}`;
+    window.location.href = url;
+  });
+};
+
+
+document.getElementById("btn-fermer-popup").addEventListener("click", () => {
+  document.getElementById("popup-acompte").classList.add("hidden");
+});

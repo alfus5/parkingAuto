@@ -81,13 +81,27 @@
       }
 
       /* Tables scrollables horizontalement */
-      table {
+
+      /*table {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
         width: 100%;
         margin-top: 0.5rem;
+      }*/
+
+      .table-wrapper table {
+        min-width: 600px;
+        /* ou plus, selon ton contenu */
+        width: max-content;
       }
+
+      .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+      }
+
 
       th,
       td {
@@ -186,74 +200,80 @@
     <!-- 📋 Mes réservations -->
     <details open>
       <summary>📋 Mes réservations</summary>
-      <table id="table-reservations">
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Téléphone</th>
-            <th>Date départ</th>
-            <th>Heure du vol</th>
-            <th>RDV Voiturier</th>
-            <th>Numéro vol</th>
-            <th>Lieu RDV</th>
-            <th>Date Retour</th>
-            <th>Statut</th>
-            <th>Pack</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <div class="table-wrapper">
+        <table id="table-reservations">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Date départ</th>
+              <th>Heure du vol</th>
+              <th>RDV Voiturier</th>
+              <th>Numéro vol</th>
+              <th>Lieu RDV</th>
+              <th>Date Retour</th>
+              <th>Statut</th>
+              <th>Pack</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </details>
 
 
     <!-- 🚗 Mes prises en charge -->
     <details>
       <summary>🚗 Mes prises en charge</summary>
-      <table id="table-my">
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Téléphone</th>
-            <th>Date départ</th>
-            <th>Heure du vol</th>
-            <th>RDV Voiturier</th>
-            <th>Numéro vol</th>
-            <th>Lieu RDV</th>
-            <th>Date Retour</th>
-            <th>Statut</th>
-            <th>Pack</th>
-            <th>Qui</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <div class="table-wrapper">
+        <table id="table-my">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Date départ</th>
+              <th>Heure du vol</th>
+              <th>RDV Voiturier</th>
+              <th>Numéro vol</th>
+              <th>Lieu RDV</th>
+              <th>Date Retour</th>
+              <th>Statut</th>
+              <th>Pack</th>
+              <th>Qui</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </details>
 
     <!-- 🆕 Réservations à prendre -->
     <details>
       <summary>🆕 À prendre en charge</summary>
-      <table id="table-free">
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Téléphone</th>
-            <th>Date départ</th>
-            <th>Heure du vol</th>
-            <th>RDV Voiturier</th>
-            <th>Numéro vol</th>
-            <th>Lieu RDV</th>
-            <th>Date Retour</th>
-            <th>Statut</th>
-            <th>Pack</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <div class="table-wrapper">
+        <table id="table-free">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Date départ</th>
+              <th>Heure du vol</th>
+              <th>RDV Voiturier</th>
+              <th>Numéro vol</th>
+              <th>Lieu RDV</th>
+              <th>Date Retour</th>
+              <th>Statut</th>
+              <th>Pack</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </details>
 
 

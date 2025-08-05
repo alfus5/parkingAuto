@@ -212,7 +212,7 @@ document.getElementById("export-csv")?.addEventListener("click", () => {
   }
 
   const lignes = [
-    ["Nom", "Email", "Téléphone", "Date départ", "Heure vol", "RDV voiturier", "Numéro vol", "Lieu RDV", "Date retour", "Statut", "Pack", "Pris en charge par"]
+    ["Nom", "Email", "Téléphone", "Date départ", "Heure vol", "RDV voiturier", "Numéro vol", "Lieu RDV", "Date retour", "Statut", "Pack", "prix à payer", "acompte à payer", "Pris en charge par"]
   ];
 
 
@@ -232,6 +232,8 @@ document.getElementById("export-csv")?.addEventListener("click", () => {
       r.dateRetour?.toDate().toLocaleDateString("fr-FR") ?? "",
       r.statut ?? "",
       r.pack ?? "",
+      r.prix,
+      r.acompte,
       assigné
 ]);
 

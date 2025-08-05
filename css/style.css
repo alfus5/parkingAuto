@@ -1254,9 +1254,9 @@ footer {
 
   /* --- BOUTON NEXT --- */
   .next-btn {
-    position: absolute;
+    /*position: absolute;
     bottom: -25px;
-    right: -190px;
+    right: -190px;*/
     padding: 0.5rem 1rem;
     z-index: 10;
     width: 3em;
