@@ -364,6 +364,13 @@
         padding: 4px 8px;
       }
     }
+
+    #btn-payer-acompte:disabled {
+  background-color: #ccc !important; /* gris clair */
+  cursor: not-allowed;
+  border: none;
+}
+
   </style>
 </head>
 
@@ -390,14 +397,7 @@
       }
     });
 
-    document.querySelectorAll("form").forEach(f => {
-      f.addEventListener("submit", (e) => {
-        if (!f.checkValidity()) {
-          e.preventDefault();
-          alert("❌ Veuillez corriger les erreurs du formulaire.");
-        }
-      });
-    });
+
   </script>
 
 
@@ -465,12 +465,24 @@
     <div id="popup-acompte" class="hidden">
       <div class="popup-content">
         <h2>Confirmation de réservation</h2>
-        <p>Pour confirmer votre réservation, vous devez payer un acompte de <strong id="montant-acompte">...</strong>.
-        </p>
-        <button id="btn-payer-acompte" class="btn-payer">Payer</button>
-        <button id="btn-fermer-popup" class="secondary">Annuler</button>
+        <p><strong>💰 Prix total :</strong> <span id="prix-total">...</span> €</p>
+        <p>Conformément à nos conditions générales et notre politique de réservation, un acompte de <strong>50%</strong> est requis pour confirmer votre réservation.</p>
+        <p>Montant de l’acompte à payer maintenant : <strong><span id="montant-acompte">...</span> €</strong></p>
+
+        <label style="display: flex; align-items: center; margin-top: 1em;">
+          <input type="checkbox" id="checkbox-conditions" style="margin-right: 0.5em;" />
+          J’accepte les <a href="cgu.pdf" target="_blank" rel="noopener">Conditions Générales d'Utilisation</a> et la 
+          <a href="https://www.privacypolicies.com/live/cabb3d2b-698a-4d78-8eb1-22dd0625c272"
+            target="_blank" rel="noopener">Politique de Confidentialité</a>
+        </label>
+
+        <div style="margin-top: 1.5em;">
+          <button id="btn-payer-acompte" class="btn-payer" disabled>Payer</button>
+          <button id="btn-fermer-popup" class="secondary">Annuler</button>
+        </div>
       </div>
     </div>
+
 
   </main>
 

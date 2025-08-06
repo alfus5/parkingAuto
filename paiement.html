@@ -6,6 +6,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="css/style.css">
+	<link rel="icon" href="img/favicon.png">
+
 	<title>Paiement de la commande</title>
 	<link rel="icon" type="image/png" href="img/favicon.png" />
 	<script
@@ -308,144 +310,10 @@
 				</div>
 			</form>-->
 	</main>
-	<script src="js/payement.js"></script>
-	<script src="js/demo.js"></script>
-
-	<script type="module">
-		import { db } from './js/firebase-config.js';
-		import {
-			doc,
-			getDoc
-		} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
-
-		// Fonction pour calculer le prix comme dans demo.js
-		function calculerPrix(pack, jours) {
-			if (pack === "Standard") {
-				if (jours === 1) return 35;
-				if (jours <= 7) return 90;
-				if (jours <= 14) return 102;
-				if (jours <= 21) return 145.20;
-				return 206.40;
-			} else if (pack === "Confort" || pack === "Premium") {
-				if (jours === 1) return 95;
-				if (jours <= 7) return 150;
-				if (jours <= 14) return 162;
-				if (jours <= 21) return 205.20;
-				return 266.40;
-			} else if (pack === "VIP") {
-				if (jours === 1) return 155;
-				if (jours <= 7) return 210;
-				if (jours <= 14) return 222;
-				if (jours <= 21) return 265.20;
-				return 326.40;
-			}
-			return 0;
-		}
-
-		function getParams() {
-			const url = new URL(window.location.href);
-			return {
-				id: url.searchParams.get("id"),
-			};
-		}
-
-		function afficherRecap(resa, montant) {
-			const recap = document.getElementById("recap-reservation");
-			const ul = document.getElementById("recap-details");
-			recap.style.display = "block";
-
-			ul.innerHTML = `
-				<li><strong>Date de départ :</strong> ${resa.dateDepart}</li>
-				<li><strong>Date de retour :</strong> ${resa.dateRetour}</li>
-				<li><strong>Pack choisi :</strong> ${resa.pack}</li>
-				<li><strong>Lieu de RDV :</strong> ${resa.lieuRDV ?? "Non défini"}</li>
-				<li><strong>Montant à payer :</strong> ${montant.toFixed(2)} €</li>
-				<li><strong>Statut :</strong> ${resa.statut ?? "En attente"}</li>
-				${resa.adminNom ? `<li><strong>Pris en charge par :</strong> ${resa.adminNom}</li>` : ''}
-				${resa.adminEmail ? `<li><strong>Email du voiturier :</strong> ${resa.adminEmail}</li>` : ''}
-				${resa.adminTel ? `<li><strong>Téléphone du voiturier :</strong> ${resa.adminTel}</li>` : ''}
-				`;
-
-		}
-
-		window.addEventListener("DOMContentLoaded", async () => {
-			const { id } = getParams();
-			if (!id) return alert("ID de réservation manquant.");
-
-			const docRef = doc(db, "reservations", id);
-			const snap = await getDoc(docRef);
-
-			if (!snap.exists()) return alert("Réservation introuvable.");
-
-			const data = snap.data();
-
-			const d1 = data.dateDepart?.toDate?.() ?? new Date(data.dateDepart);
-			const d2 = data.dateRetour?.toDate?.() ?? new Date(data.dateRetour);
-			const jours = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24));
-			const montant = calculerPrix(data.pack, jours);
-
-			const resa = {
-				dateDepart: d1.toLocaleDateString("fr-FR"),
-				dateRetour: d2.toLocaleDateString("fr-FR"),
-				pack: data.pack,
-				lieuRDV: data.lieuRDV,
-				statut: data.statut,
-				adminNom: "",
-				adminEmail: "",
-				adminTel: ""
-			};
-
-			if (data.assignedTo) {
-				try {
-					const adminRef = doc(db, "users", data.assignedTo);
-					const adminSnap = await getDoc(adminRef);
-					if (adminSnap.exists()) {
-						const admin = adminSnap.data();
-						resa.adminNom = admin.nom ?? "Inconnu";
-						resa.adminEmail = admin.email ?? "Non défini";
-						resa.adminTel = admin.telephone ?? "Non défini";
-					}
-				} catch (err) {
-					console.error("Erreur récupération admin :", err);
-				}
-			}
-
-			afficherRecap(resa, montant);
-
-			// Cache le formulaire de paiement tant que recap non validé
-			document.querySelector("main").style.display = "none";
-
-			// Gère boutons
-			document.getElementById("btn-modifier").addEventListener("click", () => {
-				const urlParams = new URLSearchParams(window.location.search);
-				const id = urlParams.get("id");
-				if (!id) {
-					alert("❗Aucune réservation à modifier.");
-					return;
-				}
-
-				// Rediriger vers la page d’accueil pour modifier
-				window.location.href = `accueil.html?modif=${id}`;
-			});
+	<script type="module" src="js/payement.js"></script>
 
 
-			document.getElementById("btn-annuler").onclick = () => {
-				if (confirm("Souhaitez-vous vraiment annuler votre réservation ?")) {
-					window.location.href = "accueil.html";
-				}
-			};
-			document.getElementById("btn-confirmer").onclick = () => {
-				document.getElementById("recap-reservation").style.display = "none";
 
-				const paiementSection = document.getElementById("paiement-section");
-				paiementSection.style.display = "block";
-
-				// ✅ Effet de scroll fluide
-				paiementSection.scrollIntoView({ behavior: "smooth" });
-			};
-
-		});
-	</script>
 
 
 </body>
