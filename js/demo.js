@@ -73,7 +73,7 @@ function afficherTableauReservations(email) {
       const d2 = r.dateRetour?.toDate?.();
       const jours = d1 && d2 ? Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24)) : 1;
       const prix = calculerPrix(r.pack, jours);
-    
+
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${formatDate(r.dateDepart)}</td>
@@ -84,53 +84,55 @@ function afficherTableauReservations(email) {
         <td>${r.pack}</td>
         <td>${r.lieuRDV ?? "CDG"}</td>
         <td>
-          ${
-            statut === "payé"
-              ? "✅ Payé"
-              : `<button class="btn-payer" onclick="payerReservation('${docSnap.id}', ${prix})">
+          ${statut === "payé"
+          ? "✅ Payé"
+          : `<button class="btn-payer" onclick="payerReservation('${docSnap.id}', ${prix})">
           💳 Payer – ${prix.toFixed(2)} € </button>`
-          }
+        }
         </td>
         <td>
-          ${
-            statut !== "payé"
-              ? `
+          ${statut !== "payé"
+          ? `
               <button class="btn-modif-res" data-id="${id}">✏️Modifier</button>
               <button class="btn-suppr-res" data-id="${id}">🗑️Supprimer</button>
               `
-              : ""
-          }
+          : ""
+        }
         </td>
       `;
-    
+
       tbody.appendChild(tr);
-    
+
       // ✅ Ajout des écouteurs
       const btnPayer = tr.querySelector(".btn-payer");
-      btnPayer?.addEventListener("click", () => {
-        const acompte = prix * 0.5;
-        payerAcompte(id, acompte);
-      });
-    
+      // ✅ N’ajoute l'écouteur que si le bouton n'a pas d'attribut 'onclick'
+      if (!btnPayer.hasAttribute("onclick")) {
+        btnPayer.addEventListener("click", () => {
+          const acompte = prix * 0.5;
+          payerAcompte(id, acompte);
+        });
+      }
+
+
       const btnSupprimer = tr.querySelector(".btn-suppr-res");
       btnSupprimer?.addEventListener("click", () => {
         supprimerReservation(id);
       });
-    
+
       const btnModifier = tr.querySelector(".btn-modif-res");
       btnModifier?.addEventListener("click", () => {
         modifierReservation(id);
       });
-    
+
       // ✅ Bloc admin inchangé
       if (r.assignedTo) {
         try {
           const adminRef = doc(db, "users", r.assignedTo);
           const adminSnap = await getDoc(adminRef);
-    
+
           if (adminSnap.exists()) {
             const admin = adminSnap.data();
-    
+
             const trAdmin = document.createElement("tr");
             trAdmin.className = "encart-admin";
             trAdmin.innerHTML = `
@@ -161,7 +163,7 @@ function afficherTableauReservations(email) {
         tbody.appendChild(trAttente);
       }
     }
-    
+
   });
 }
 

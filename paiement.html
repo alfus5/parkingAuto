@@ -354,12 +354,14 @@
 			const ul = document.getElementById("recap-details");
 			recap.style.display = "block";
 
+			console.log(resa)
 			ul.innerHTML = `
 				<li><strong>Date de départ :</strong> ${resa.dateDepart}</li>
 				<li><strong>Date de retour :</strong> ${resa.dateRetour}</li>
 				<li><strong>Pack choisi :</strong> ${resa.pack}</li>
 				<li><strong>Lieu de RDV :</strong> ${resa.lieuRDV ?? "Non défini"}</li>
-				<li><strong>Montant à payer :</strong> ${montant.toFixed(2)} €</li>
+				<li><strong>Montant total à payer :</strong> ${montant.toFixed(2)} €</li>
+				<li><strong>Montant de l'acompte à payer :</strong> ${resa.acompte} €</li>
 				<li><strong>Statut :</strong> ${resa.statut ?? "En attente"}</li>
 				${resa.adminNom ? `<li><strong>Pris en charge par :</strong> ${resa.adminNom}</li>` : ''}
 				${resa.adminEmail ? `<li><strong>Email du voiturier :</strong> ${resa.adminEmail}</li>` : ''}
@@ -390,6 +392,7 @@
 				pack: data.pack,
 				lieuRDV: data.lieuRDV,
 				statut: data.statut,
+				acompte: data.acompte,
 				adminNom: "",
 				adminEmail: "",
 				adminTel: ""
